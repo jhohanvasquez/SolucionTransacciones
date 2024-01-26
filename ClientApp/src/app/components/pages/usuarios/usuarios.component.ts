@@ -22,7 +22,7 @@ const ELEMENT_DATA: Usuario[] = [
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['nombre', 'email', 'rolDescripcion','acciones'];
+  displayedColumns: string[] = ['identificacion', 'nombre', 'email', 'acciones'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -51,8 +51,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   mostrarUsuarios() {
     this._usuarioServicio.getUsuarios().subscribe({
       next: (data) => {
-        if(data.status)
+        debugger;
+        if (data.status) {
           this.dataSource.data = data.value;
+        }         
         else
           this._snackBar.open("No se encontraron datos", 'Oops!', { duration: 2000 });
       },

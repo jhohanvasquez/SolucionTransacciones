@@ -92,13 +92,8 @@ namespace AppTransacciones.Controllers
             try
             {
                 Usuario _usuario = _mapper.Map<Usuario>(request);
-
-                Usuario _usuarioCreado = (Usuario)await _usuarioRepositorio.Crear(_usuario);
-
-                if (_usuarioCreado.usuario_identificacion != "0" && _usuarioCreado.usuario_identificacion != string.Empty)
-                    _response = new Response<UsuarioDTO>() { status = true, msg = "ok", value = _mapper.Map<UsuarioDTO>(_usuarioCreado) };
-                else
-                    _response = new Response<UsuarioDTO>() { status = false, msg = "No se pudo crear el usuario" };
+                await _usuarioRepositorio.Crear(_usuario);
+                _response = new Response<UsuarioDTO>() { status = true, msg = "ok", value = _mapper.Map<UsuarioDTO>(request) };
 
                 return StatusCode(StatusCodes.Status200OK, _response);
             }
@@ -117,15 +112,15 @@ namespace AppTransacciones.Controllers
             try
             {
                 Usuario _usuario = _mapper.Map<Usuario>(request);
-                Usuario _usuarioParaEditar = await _usuarioRepositorio.Obtener(_usuario.usuario_identificacion);
+                Usuario _usuarioParaEditar = await _usuarioRepositorio.Obtener(_usuario.identificacion);
 
                 if (_usuarioParaEditar != null)
                 {
 
-                    _usuarioParaEditar.usuario_nombre = _usuario.usuario_nombre;
-                    _usuarioParaEditar.usuario_email = _usuario.usuario_email;
+                    _usuarioParaEditar.nombre = _usuario.nombre;
+                    _usuarioParaEditar.email = _usuario.email;
                     _usuarioParaEditar.idRol = _usuario.idRol;
-                    _usuarioParaEditar.Clave = _usuario.Clave;
+                    _usuarioParaEditar.clave = _usuario.clave;
 
                     bool respuesta = await _usuarioRepositorio.Editar(_usuarioParaEditar);
 

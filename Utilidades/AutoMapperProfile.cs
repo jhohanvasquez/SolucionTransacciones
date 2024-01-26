@@ -17,7 +17,7 @@ namespace AppTransacciones.Utilidades
             CreateMap<Usuario, UsuarioDTO>()
                 .ForMember(destino =>
                     destino.rolDescripcion,
-                    opt => opt.MapFrom(origen => origen.idRolNavigation.Descripcion)
+                    opt => opt.MapFrom(origen => origen.idRolNavigation.descripcion ?? string.Empty)
                 );
 
             CreateMap<UsuarioDTO, Usuario>()

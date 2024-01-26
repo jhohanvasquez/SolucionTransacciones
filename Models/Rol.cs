@@ -7,14 +7,14 @@ namespace AppTransacciones.Models
     {
         public Rol()
         {
-            Usuarios = new HashSet<Usuario>();
+            usuarios = new HashSet<Usuario>();
         }
 
         public int idRol { get; set; }
-        public string? Descripcion { get; set; }
-        public bool? EsActivo { get; set; }
-        public DateTime? FechaRegistro { get; set; }
+        public string? descripcion { get; set; }
+        public bool? esActivo { get; set; }
+        public DateTime? fechaRegistro { get; set; }
 
-        public virtual ICollection<Usuario> Usuarios { get; set; }
+        public virtual ICollection<Usuario> usuarios { get; set; }
     }
 }

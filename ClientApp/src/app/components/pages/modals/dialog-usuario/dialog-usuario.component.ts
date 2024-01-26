@@ -30,7 +30,8 @@ export class DialogUsuarioComponent implements OnInit, AfterViewInit {
   {
 
     this.formUsuario = this.fb.group({
-      usuario_nombreApellido: ['', Validators.required],
+      identificacion: ['', Validators.required],
+      nombre: ['', Validators.required],
       email: ['', Validators.required],
       idRol: ['', Validators.required],
       clave: ['', Validators.required],
@@ -70,9 +71,10 @@ export class DialogUsuarioComponent implements OnInit, AfterViewInit {
     if (this.usuarioEditar) {
 
       this.formUsuario.patchValue({
+        identificacion: this.usuarioEditar.identificacion,
         nombre: this.usuarioEditar.nombre,
         email: this.usuarioEditar.email,
-        /*idRol: this.usuarioEditar.idRol,*/
+        idRol: this.usuarioEditar.idRol,
         clave: this.usuarioEditar.clave
       })
     }
@@ -85,11 +87,19 @@ export class DialogUsuarioComponent implements OnInit, AfterViewInit {
 
 
   agregarEditarUsuario() {
- 
+
+    let identificacionUser = '';
+
+    if (this.usuarioEditar) {
+      identificacionUser = this.usuarioEditar == null ? "0" : this.usuarioEditar.identificacion
+    }
+    else {
+      identificacionUser = this.formUsuario.value.identificacion
+    }
 
     const _usuario: Usuario = {
-      identificacion: this.usuarioEditar == null ? 0 : this.usuarioEditar.identificacion,
-      nombre: this.formUsuario.value.usuario_nombreApellido,
+      identificacion: identificacionUser,
+      nombre: this.formUsuario.value.nombre,
       email: this.formUsuario.value.email,
       idRol: this.formUsuario.value.idRol,
       rolDescripcion : "",
@@ -119,10 +129,10 @@ export class DialogUsuarioComponent implements OnInit, AfterViewInit {
 
       
     } else {
-
+     
       this._usuarioServicio.saveUsuario(_usuario).subscribe({
         next: (data) => {
-
+          debugger;
           if (data.status) {
             this.mostrarAlerta("El usuario fue registrado", "Exito");
             this.dialogoReferencia.close('agregado')

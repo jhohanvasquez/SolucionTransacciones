@@ -36,7 +36,7 @@ export class UsuarioServicioService {
 
   }
 
-deleteUsuario(id: number): Observable<ResponseApi> {
+  deleteUsuario(id: string): Observable<ResponseApi> {
 
     return this.http.delete<ResponseApi>(`${this.apiBase}Eliminar/${id}`);
 

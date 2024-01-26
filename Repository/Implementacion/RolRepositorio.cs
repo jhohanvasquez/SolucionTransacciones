@@ -21,7 +21,7 @@ namespace AppTransacciones.Repository.Implementacion
             {
                 using (var connection = _context.CreateConnection())
                 {
-                    var result = await connection.QueryAsync<Rol>("SP_ListarUsuario", null, commandType: CommandType.StoredProcedure);
+                    var result = await connection.QueryAsync<Rol>("SP_ListarRol", null, commandType: CommandType.StoredProcedure);
                     return result.ToList();
                 }
             }

@@ -384,3 +384,14 @@ WHERE [identificacion] = @identificacion
 END
 
 GO
+/****** Object:  StoredProcedure [dbo].[SP_ListarRol]    Script Date: 26/01/2024 7:55:45 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ListarRol] 
+AS
+BEGIN 
+SELECT *
+FROM [dbo].[Rol]
+END

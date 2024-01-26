@@ -63,12 +63,12 @@ namespace AppTransacciones.Repository.Implementacion
                 using (var connection = _dbContext.CreateConnection())
                 {
                     DynamicParameters parameters = new DynamicParameters();
-                    parameters.Add("identificacion", entidad.usuario_identificacion);
-                    parameters.Add("nombre", entidad.usuario_nombre);
-                    parameters.Add("email", entidad.usuario_email);
+                    parameters.Add("identificacion", entidad.identificacion);
+                    parameters.Add("nombre", entidad.nombre);
+                    parameters.Add("email", entidad.email);
                     parameters.Add("idRol", entidad.idRol);
-                    parameters.Add("clave", entidad.Clave);
-                    parameters.Add("EsActivo", entidad.EsActivo);
+                    parameters.Add("clave", entidad.clave);
+                    parameters.Add("esActivo", true);
 
                     var result = await connection.QueryAsync<Usuario>("SP_CrearUsuario", parameters, commandType: CommandType.StoredProcedure);
 
@@ -88,12 +88,12 @@ namespace AppTransacciones.Repository.Implementacion
                 using (var connection = _dbContext.CreateConnection())
                 {
                     DynamicParameters parameters = new DynamicParameters();
-                    parameters.Add("identificacion", entidad.usuario_identificacion);
-                    parameters.Add("nombre", entidad.usuario_nombre);
-                    parameters.Add("email", entidad.usuario_email);
+                    parameters.Add("identificacion", entidad.identificacion);
+                    parameters.Add("nombre", entidad.nombre);
+                    parameters.Add("email", entidad.email);
                     parameters.Add("idRol", entidad.idRol);
-                    parameters.Add("clave", entidad.Clave);
-                    parameters.Add("EsActivo", entidad.EsActivo);
+                    parameters.Add("clave", entidad.clave);
+                    parameters.Add("EsActivo", entidad.esActivo);
 
                     var result = await connection.QueryAsync<Usuario>("SP_EditarUsuario", parameters, commandType: CommandType.StoredProcedure);
 
@@ -114,7 +114,7 @@ namespace AppTransacciones.Repository.Implementacion
                 using (var connection = _dbContext.CreateConnection())
                 {
                     DynamicParameters parameters = new DynamicParameters();
-                    parameters.Add("identificacion", entidad.usuario_identificacion);
+                    parameters.Add("identificacion", entidad.identificacion);
 
                     var result = await connection.QueryAsync<Usuario>("SP_EliminarUsuario", parameters, commandType: CommandType.StoredProcedure);
 
