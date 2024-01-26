@@ -18,6 +18,8 @@ Aplicacion realizada en:
 4. Realice el ingreso con el usuario: admin@example.com Clave: 12345
 5. Al iniciar sesion este consumira el endpoint de la API: http://pbiz.zonavirtual.com/api/Prueba/Consulta.
 6. Se poblara la base de datos con la informacion recuperada de la API al ingresar.
+
+<img width="723" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/d9c44578-1f42-4a35-9c89-4455f4dd40d3">
    
 <img width="312" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/7fb0ec98-11eb-4122-bfd9-9e08408a157e">
 
