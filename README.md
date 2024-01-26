@@ -21,7 +21,7 @@ Aplicacion realizada en:
 
 <img width="312" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/7fb0ec98-11eb-4122-bfd9-9e08408a157e">
 
-<img width="918" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/318d4b1e-6a86-4576-9d27-416bd23064fa">
+<img width="918" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/6f24a3ff-dfd4-49eb-8854-b490d1005579">
 
 <img width="723" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/d9c44578-1f42-4a35-9c89-4455f4dd40d3">
 
