@@ -16,9 +16,9 @@ export class DialogDetalleTransaccionComponent implements OnInit {
   tipoPago?: string = "";
   total?: string = "";
   detalleTransaccion: DetalleTransaccion[] = [
-    { idProducto: 1, descripcionProducto: "", color: "", cantidad:0,precioTexto:"0",totalTexto:"0"},
+    { codigoComercio: 1, descripcionComercio: "", nit: "", direccion: "0", totalTexto: "0" },
   ]
-  displayedColumns: string[] = ['producto', 'color', 'cantidad', 'precio', 'total'];
+  displayedColumns: string[] = ['comercio', 'nit', 'direccion','total'];
  
 
   constructor(@Inject(MAT_DIALOG_DATA) public _venta: Transaccion) {
@@ -27,7 +27,7 @@ export class DialogDetalleTransaccionComponent implements OnInit {
     this.tipoPago = _venta.tipoPago;
     this.total = _venta.totalTexto;
     this.detalleTransaccion = _venta.detalleTransaccion == null ? [
-      { idProducto: 1, descripcionProducto: "", color: "", cantidad: 0, precioTexto: "0", totalTexto: "0" },
+      { codigoComercio: 1, descripcionComercio: "", nit: "", direccion: "0", totalTexto: "0" },
     ] : _venta.detalleTransaccion;
   }
 

@@ -1,9 +1,11 @@
-﻿namespace AppTransacciones.DTOs
+﻿using AppTransacciones.Models;
+
+namespace AppTransacciones.DTOs
 {
     public class ZonaVirtualDTO
     {
-        public ComercioDTO? comercio { get; set; }
-        public TransaccionDTO? Trans { get; set; }
-        public UsuarioDTO? usuario { get; set; }
+        public Comercio? comercio { get; set; }
+        public Transaccion? Trans { get; set; }
+        public Usuario? usuario { get; set; }
     }
 }

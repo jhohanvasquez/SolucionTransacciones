@@ -6,7 +6,10 @@ namespace AppTransacciones.Repository.Contratos
 {
     public interface IComercioRepositorio
     {
-        Task<ComercioDTO> Obtener(int id);
-        Task<IEnumerable<ComercioDTO>> Crear(ComercioDTO entidad);
+        Task<IEnumerable<Comercio>> Crear(Comercio entidad);
+        Task<bool> Editar(Comercio entidad);
+        Task<bool> Eliminar(Comercio entidad);
+        Task<IEnumerable<Comercio>> Consultar();
+        Task<Comercio> Consultar(int? idComercio);
     }
 }

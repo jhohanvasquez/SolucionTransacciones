@@ -9,22 +9,14 @@ import { Comercio } from '../../../interfaces/comercio';
 import { DialogDeleteComercioComponent } from '../modals/dialog-delete-comercio/dialog-delete-comercio.component';
 import { ComercioService } from '../../../services/comercio.service';
 
-
-const ELEMENT_DATA: Comercio[] = [
-  { idComercio: 1, nombre: "Labial", idDepartamentoVenta: 1, descripcionDepartamentoVenta:"Unguentos", color: "rojo", stock: 30, precio: "2.5" },
-  { idComercio: 2, nombre: "Lapiz Ojos", idDepartamentoVenta: 2, descripcionDepartamentoVenta: "Maquillaje", color: "azul", stock: 23, precio: "3.5" },
-  { idComercio: 3, nombre: "Base", idDepartamentoVenta: 3, descripcionDepartamentoVenta: "Polvo", color: "blanco", stock: 25, precio: "4.5" },
-
-];
-
 @Component({
   selector: 'app-comercios',
   templateUrl: './comercios.component.html',
   styleUrls: ['./comercios.component.css']
 })
 export class ComerciosComponent implements OnInit {
-  displayedColumns: string[] = ['nombre', 'color', 'DepartamentoVenta', 'stock','precio', 'acciones'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = ['nombre', 'nit', 'direccion'];
+  dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -96,7 +88,7 @@ export class ComerciosComponent implements OnInit {
 
       if (result === "eliminar") {
 
-        this._comercioServicio.delete(comercio.idComercio).subscribe({
+        this._comercioServicio.delete(comercio.codigo).subscribe({
           next: (data) => {
 
             if (data.status) {

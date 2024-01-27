@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using RestSharp;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace AppTransacciones.Repository.Implementacion
 {
@@ -28,26 +30,41 @@ namespace AppTransacciones.Repository.Implementacion
 
         public void Save(List<ZonaVirtualDTO> oListZonaVirtualDTO)
         {
-            foreach (var item in oListZonaVirtualDTO)
+            var resultComercio = Parallel.ForEach(oListZonaVirtualDTO, async item =>
             {
-                var resutComercio = _comercioRepositorio.Obtener(item.comercio.codigo);
-                if(resutComercio.Result == null)
+                if (item.comercio != null)
                 {
-                    _comercioRepositorio.Crear(item.comercio);
+                    var resutlComercio = await _comercioRepositorio.Consultar(item.comercio.codigo);
+                    if (resutlComercio == null)
+                    {
+                        await _comercioRepositorio.Crear(item.comercio);
+                    }
                 }
 
-                var resutUsuario = _usuarioRepositorio.Obtener(item.usuario.identificacion);
-                if (resutUsuario.Result == null)
+                if (item.usuario != null)
                 {
-                    _usuarioRepositorio.Crear(item.usuario);
+                    var resultUsuario = await _usuarioRepositorio.Obtener(item.usuario.identificacion);
+                    if (resultUsuario == null)
+                    {
+                        await _usuarioRepositorio.Crear(item.usuario);
+                    }
                 }
 
-                var resutTransaccion = _transaccionRepositorio.Obtener(item.Trans.codigo);
-                if (resutTransaccion.Result == null)
+                if (item.Trans != null && item.comercio != null)
                 {
-                    _transaccionRepositorio.Crear(item.Trans);
+                    var resutlComercio = await _comercioRepositorio.Consultar(item.comercio.codigo);
+                    if (resutlComercio != null)
+                    {
+                        var resutTransaccion = await _transaccionRepositorio.Obtener(item.Trans.codigo);
+                        if (resutTransaccion == null)
+                        {
+                            await _transaccionRepositorio.Crear(item.Trans);
+                        }
+                    }
                 }
-            }
+
+            });
+
         }
 
 
@@ -88,14 +105,14 @@ namespace AppTransacciones.Repository.Implementacion
             {
                 ZonaVirtualDTO oZonaVirtualDTOs = new ZonaVirtualDTO();
 
-                oZonaVirtualDTOs.usuario = new UsuarioDTO
+                oZonaVirtualDTOs.usuario = new Usuario
                 {
                     identificacion = itemZonaVirtual.usuario_identificacion,
                     email = itemZonaVirtual.usuario_email,
                     nombre = itemZonaVirtual.usuario_nombre
                 };
 
-                oZonaVirtualDTOs.comercio = new ComercioDTO
+                oZonaVirtualDTOs.comercio = new Comercio
                 {
                     codigo = itemZonaVirtual.comercio_codigo,
                     nombre = itemZonaVirtual.comercio_nombre,
@@ -103,7 +120,7 @@ namespace AppTransacciones.Repository.Implementacion
                     direccion = itemZonaVirtual.comercio_direccion
                 };
 
-                oZonaVirtualDTOs.Trans = new TransaccionDTO
+                oZonaVirtualDTOs.Trans = new Transaccion
                 {
                     codigo = itemZonaVirtual.Trans_codigo,
                     medio_pago = itemZonaVirtual.Trans_medio_pago,

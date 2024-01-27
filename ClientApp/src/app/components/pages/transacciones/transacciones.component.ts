@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { DetalleTransacciones } from '../../../interfaces/detalle-transaccion';
 import { Comercio } from '../../../interfaces/comercio';
-import { Transacciones } from '../../../interfaces/transaccion';
 import { ComercioService } from '../../../services/comercio.service';
-import { TransaccionesService } from '../../../services/transaccion.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogResultadoTransaccionesComponent } from '../modals/dialog-resultado-transaccion/dialog-resultado-transaccion.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TransaccionService } from '../../../services/transaccion.service';
+import { DetalleTransaccion } from '../../../interfaces/detalle-transaccion';
+import { Transaccion } from '../../../interfaces/transaccion';
+import { DialogResultadoTransaccionComponent } from '../modals/dialog-resultado-transaccion/dialog-resultado-transaccion.component';
 
 
 
 @Component({
-  selector: 'app-transaccion',
-  templateUrl: './transaccion.component.html',
-  styleUrls: ['./transaccion.component.css']
+  selector: 'app-transacciones',
+  templateUrl: './transacciones.component.html',
+  styleUrls: ['./transacciones.component.css']
 })
 export class TransaccionesComponent implements OnInit {
   options: Comercio[] = [];
-  ELEMENT_DATA: DetalleTransacciones[] = [];
+  ELEMENT_DATA: DetalleTransaccion[] = [];
   deshabilitado: boolean = false;
 
   filteredOptions!: Comercio[];
@@ -34,7 +34,7 @@ export class TransaccionesComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _comercioServicio: ComercioService,
-    private _transaccionServicio: TransaccionesService,
+    private _transaccionServicio: TransaccionService,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
   ) {
@@ -82,19 +82,15 @@ export class TransaccionesComponent implements OnInit {
 
   onSubmitForm() {
 
-    const _cantidad: number = this.formGroup.value.cantidad;
-    const _precio: number = parseFloat(this.agregarComercio.precio);
-    const _total: number = _cantidad * _precio;
-    this.totalPagar = this.totalPagar + _total;
+    this.totalPagar = this.totalPagar;
 
     this.ELEMENT_DATA.push(
       {
-        idComercio: this.agregarComercio.idComercio,
+        codigoComercio: this.agregarComercio.codigo,
         descripcionComercio: this.agregarComercio.nombre,
-        color: this.agregarComercio.color,
-        cantidad: _cantidad,
-        precioTexto: String(_precio.toFixed(2)),
-        totalTexto: String(_total.toFixed(2))
+        nit: this.agregarComercio.nit,
+        direccion: this.agregarComercio.direccion,
+        totalTexto: String(this.totalPagar.toFixed(2))
       })
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
@@ -105,25 +101,24 @@ export class TransaccionesComponent implements OnInit {
 
   }
 
-  eliminarComercio(item: DetalleTransacciones) {
+  eliminarComercio(item: DetalleTransaccion) {
 
     this.totalPagar = this.totalPagar - parseFloat(item.totalTexto);
-    this.ELEMENT_DATA = this.ELEMENT_DATA.filter(p => p.idComercio != item.idComercio)
+    this.ELEMENT_DATA = this.ELEMENT_DATA.filter(p => p.codigoComercio != item.codigoComercio)
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   }
 
-  registrarTransacciones() {
+  registrarTransaccion() {
 
     if (this.ELEMENT_DATA.length > 0) {
 
       this.deshabilitado = true;
       
 
-      const transaccionDto: Transacciones = {
+      const transaccionDto: Transaccion = {
         tipoPago: this.tipodePago,
-        totalTexto: String(this.totalPagar.toFixed(2)),
-        detalleTransacciones: this.ELEMENT_DATA
+        totalTexto: String(this.totalPagar.toFixed(2))
       }
 
       this._transaccionServicio.registrar(transaccionDto).subscribe({
@@ -135,7 +130,7 @@ export class TransaccionesComponent implements OnInit {
             this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
             this.tipodePago = "Efectivo";
 
-            this.dialog.open(DialogResultadoTransaccionesComponent, {
+            this.dialog.open(DialogResultadoTransaccionComponent, {
               data: {
                 numero: data.value.numeroDocumento
               },

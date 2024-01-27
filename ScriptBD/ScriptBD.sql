@@ -1,12 +1,12 @@
 USE [DBTransacciones]
 GO
-/****** Object:  Table [dbo].[comercios]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  Table [dbo].[comercios]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[comercios](
-	[codigo] [int] NOT NULL,
+	[codigo] [int] IDENTITY(1,1) NOT NULL,
 	[nombre] [varchar](250) NOT NULL,
 	[nit] [varchar](20) NOT NULL,
 	[direccion] [varchar](250) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[comercios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[estado]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  Table [dbo].[estado]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31,7 +31,7 @@ CREATE TABLE [dbo].[estado](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[mediosPago]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  Table [dbo].[mediosPago]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -46,7 +46,7 @@ CREATE TABLE [dbo].[mediosPago](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[rol]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  Table [dbo].[rol]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -62,7 +62,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[transaciones]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  Table [dbo].[transaciones]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -82,7 +82,7 @@ CREATE TABLE [dbo].[transaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[usuarios]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  Table [dbo].[usuarios]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,9 +91,9 @@ CREATE TABLE [dbo].[usuarios](
 	[identificacion] [varchar](20) NOT NULL,
 	[nombre] [varchar](200) NOT NULL,
 	[email] [varchar](200) NOT NULL,
-	[idRol] [int] NOT NULL,
-	[clave] [varchar](50) NOT NULL,
-	[esActivo] [bit] NOT NULL,
+	[idRol] [int] NULL,
+	[clave] [varchar](50) NULL,
+	[esActivo] [bit] NULL,
  CONSTRAINT [PK_usuarios] PRIMARY KEY CLUSTERED 
 (
 	[identificacion] ASC
@@ -142,7 +142,11 @@ SET IDENTITY_INSERT [dbo].[rol] OFF
 GO
 INSERT [dbo].[usuarios] ([identificacion], [nombre], [email], [idRol], [clave], [esActivo]) VALUES (N'1', N'admin', N'admin@example.com', 1, N'12345', 1)
 GO
-INSERT [dbo].[usuarios] ([identificacion], [nombre], [email], [idRol], [clave], [esActivo]) VALUES (N'2', N'employe', N'employe@example.com', 2, N'12345', 1)
+INSERT [dbo].[usuarios] ([identificacion], [nombre], [email], [idRol], [clave], [esActivo]) VALUES (N'2', N'employe', N'employe@example.com', 3, N'12345', 1)
+GO
+INSERT [dbo].[usuarios] ([identificacion], [nombre], [email], [idRol], [clave], [esActivo]) VALUES (N'3', N'Pagador', N'True', 3, N'12345', 1)
+GO
+INSERT [dbo].[usuarios] ([identificacion], [nombre], [email], [idRol], [clave], [esActivo]) VALUES (N'4', N'Sin Asignar', N'True', 4, N'12345', 1)
 GO
 ALTER TABLE [dbo].[rol] ADD  DEFAULT (getdate()) FOR [fechaRegistro]
 GO
@@ -171,26 +175,51 @@ REFERENCES [dbo].[rol] ([idRol])
 GO
 ALTER TABLE [dbo].[usuarios] CHECK CONSTRAINT [FK_usuarios_rol]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CrearComercio]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ConsultarComercios]    Script Date: 27/01/2024 4:00:02 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ConsultarComercios]
+AS
+BEGIN 
+SELECT *
+FROM comercios
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ConsultarComerciosId]    Script Date: 27/01/2024 4:00:02 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ConsultarComerciosId]
+@codigo	int
+AS
+BEGIN 
+SELECT *
+FROM comercios
+WHERE [codigo] = @codigo
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_CrearComercio]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[SP_CrearComercio]
-       @codigo int,
 	   @nombre varchar(250),
 	   @nit varchar(20),
 	   @direccion varchar(250)
 AS
 BEGIN 
 INSERT INTO [dbo].[comercios]
-           ([codigo]
-		   ,[nombre]
+           ([nombre]
            ,[nit]
            ,[direccion])
      VALUES
-           (@codigo
-		   ,@nombre
+           (@nombre
            ,@nit
            ,@direccion)
 
@@ -198,7 +227,34 @@ INSERT INTO [dbo].[comercios]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CrearTransaccion]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_CrearProducto]    Script Date: 27/01/2024 4:00:02 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_CrearProducto]
+	       @codigo int,
+           @nombre varchar(100),
+           @nit varchar(20),
+		   @direccion varchar(100)
+AS
+BEGIN 
+INSERT INTO [dbo].[comercios]
+           (codigo
+           ,nombre
+           ,nit
+           ,direccion)
+     VALUES
+           (@codigo
+           ,@nombre
+           ,@nit
+           ,@direccion)
+
+		   SELECT SCOPE_IDENTITY()
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_CrearTransaccion]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -237,7 +293,7 @@ INSERT INTO [dbo].[transaciones]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CrearUsuario]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_CrearUsuario]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +326,27 @@ INSERT INTO [dbo].[usuarios]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_EditarUsuario]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_EditarComercio]    Script Date: 27/01/2024 4:00:02 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_EditarComercio]
+           @codigo int,
+           @nombre varchar(100),
+           @nit varchar(20),
+		   @direccion varchar(100)
+AS
+BEGIN 
+UPDATE [dbo].[comercios]
+   SET [nombre] = @Nombre
+      ,[nit] = @nit
+      ,[direccion] = @direccion
+ WHERE [codigo] = @codigo
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_EditarUsuario]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -294,7 +370,22 @@ UPDATE [dbo].[usuarios]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_EliminarUsuario]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_EliminarComercio]    Script Date: 27/01/2024 4:00:02 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_EliminarComercio]
+	   @codigo	int	 
+AS
+BEGIN 
+DELETE
+FROM comercios 
+WHERE codigo = @codigo
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_EliminarUsuario]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -309,7 +400,19 @@ WHERE [identificacion] = @identificacion
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ListarUsuario]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ListarRol]    Script Date: 27/01/2024 4:00:02 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ListarRol] 
+AS
+BEGIN 
+SELECT *
+FROM [dbo].[Rol]
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ListarUsuario]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -322,7 +425,7 @@ FROM usuarios
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerComercioId]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerComercioId]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -337,7 +440,7 @@ WHERE [codigo] = @codigo
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerTransaccionId]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerTransaccionId]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -352,7 +455,7 @@ WHERE [codigo] = @codigo
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuario]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuario]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -369,7 +472,7 @@ WHERE [email] = @email AND [clave] = @clave
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuarioId]    Script Date: 25/01/2024 11:53:56 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuarioId]    Script Date: 27/01/2024 4:00:02 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -384,14 +487,3 @@ WHERE [identificacion] = @identificacion
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ListarRol]    Script Date: 26/01/2024 7:55:45 a. m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [dbo].[SP_ListarRol] 
-AS
-BEGIN 
-SELECT *
-FROM [dbo].[Rol]
-END

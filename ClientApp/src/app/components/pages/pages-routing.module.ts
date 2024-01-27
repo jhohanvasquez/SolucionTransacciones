@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesComponent } from './pages.component';
-import { ComerciosComponent } from './comercios/comercios.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { ComerciosComponent } from './comercios/comercios.component';
 import { TransaccionesComponent } from './transacciones/transacciones.component';
 
 const routes: Routes = [

@@ -66,8 +66,8 @@ namespace AppTransacciones.Repository.Implementacion
                     parameters.Add("identificacion", entidad.identificacion);
                     parameters.Add("nombre", entidad.nombre);
                     parameters.Add("email", entidad.email);
-                    parameters.Add("idRol", entidad.idRol);
-                    parameters.Add("clave", entidad.clave);
+                    parameters.Add("idRol", entidad.idRol ?? 4);
+                    parameters.Add("clave", entidad.clave ?? string.Empty);
                     parameters.Add("esActivo", true);
 
                     var result = await connection.QueryAsync<Usuario>("SP_CrearUsuario", parameters, commandType: CommandType.StoredProcedure);

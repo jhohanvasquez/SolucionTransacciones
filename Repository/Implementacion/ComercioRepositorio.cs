@@ -12,55 +12,103 @@ namespace AppTransacciones.Repository.Implementacion
 {
     public class ComercioRepositorio : IComercioRepositorio
     {
-        private readonly DBTransaccionesContext _dbContext;
+        private readonly DBTransaccionesContext _context;
 
         public ComercioRepositorio(DBTransaccionesContext dbContext)
         {
-            _dbContext = dbContext;
+            _context = dbContext;
         }
-       
 
-        public async Task<IEnumerable<ComercioDTO>> Crear(ComercioDTO entidad)
+        public async Task<IEnumerable<Comercio>> Consultar()
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                return await connection.QueryAsync<Comercio>("SP_ConsultarComercios", null, commandType: CommandType.StoredProcedure);
+
+            }
+        }
+
+        public async Task<Comercio> Consultar(int? codigo)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("codigo", codigo);
+
+                var result = await connection.QueryAsync<Comercio>("SP_ConsultarComerciosId", parameters, commandType: CommandType.StoredProcedure);
+
+                return result.FirstOrDefault();
+            }
+        }
+
+        public async Task<IEnumerable<Comercio>> Crear(Comercio entidad)
         {
             try
             {
-                using (var connection = _dbContext.CreateConnection())
+                using (var connection = _context.CreateConnection())
                 {
+
+
                     DynamicParameters parameters = new DynamicParameters();
-                    parameters.Add("codigo", entidad.codigo);
                     parameters.Add("nombre", entidad.nombre);
                     parameters.Add("nit", entidad.nit);
                     parameters.Add("direccion", entidad.direccion);
 
-                    var result = await connection.QueryAsync<ComercioDTO>("SP_CrearComercio", parameters, commandType: CommandType.StoredProcedure);
+                    return await connection.QueryAsync<Comercio>("SP_CrearComercio", parameters, commandType: CommandType.StoredProcedure);
 
-                    return result;
                 }
             }
             catch
             {
                 throw;
             }
-        }          
+        }
 
-        public async Task<ComercioDTO> Obtener(int id)
+        public async Task<bool> Editar(Comercio entidad)
         {
             try
             {
-                DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("codigo", id);
-
-                using (var connection = _dbContext.CreateConnection())
+                using (var connection = _context.CreateConnection())
                 {
-                    var result = await connection.QueryAsync<ComercioDTO>("SP_ObtenerComercioId", parameters, commandType: CommandType.StoredProcedure);
 
-                    return result.FirstOrDefault();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("codigo", entidad.codigo);
+                    parameters.Add("nombre", entidad.nombre);
+                    parameters.Add("nit", entidad.nit);
+                    parameters.Add("direccion", entidad.direccion);
+
+                    var result = await connection.QueryAsync<Comercio>("SP_EditarComercio", parameters, commandType: CommandType.StoredProcedure);
+
+                    return true;
                 }
             }
-            catch (Exception ex)
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> Eliminar(Comercio entidad)
+        {
+            try
+            {
+                using (var connection = _context.CreateConnection())
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("codigo", entidad.codigo);
+
+                    var result = await connection.QueryAsync<Usuario>("SP_EliminarComercio", parameters, commandType: CommandType.StoredProcedure);
+
+                    return true;
+                }
+            }
+            catch
             {
                 throw;
             }
         }
     }
 }
+

@@ -15,40 +15,19 @@
 
         <mat-grid-tile>
           <mat-form-field appearance="outline">
-            <mat-label>Color</mat-label>
-            <input matInput autocomplete="off" formControlName="color">
+            <mat-label>Nit</mat-label>
+            <input matInput autocomplete="off" formControlName="nit">
             <mat-icon matSuffix>fit_screen</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field appearance="outline">
-            <mat-label>DepartamentoTransaccion</mat-label>
-            <mat-select formControlName="idDepartamentoTransaccion">
-              <mat-option *ngFor="let item of listaDepartamentoTransaccions" [value]="item.idDepartamentoTransaccion">
-                {{item.descripcion}}
-              </mat-option>
-            </mat-select>
+            <mat-label>Dirección</mat-label>
+            <input matInput autocomplete="off" formControlName="direccion">
+            <mat-icon matSuffix>fit_screen</mat-icon>
           </mat-form-field>
         </mat-grid-tile>
-
-
-        <mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Stock</mat-label>
-            <input matInput autocomplete="off" formControlName="stock" type="number">
-            <mat-icon matSuffix>edit_square</mat-icon>
-          </mat-form-field>
-        </mat-grid-tile>
-
-        <mat-grid-tile>
-          <mat-form-field appearance="outline">
-            <mat-label>Precio</mat-label>
-            <input matInput autocomplete="off" formControlName="precio" type="text">
-            <mat-icon matSuffix>attach_money</mat-icon>
-          </mat-form-field>
-        </mat-grid-tile>
-
 
       </mat-grid-list>
     </form>

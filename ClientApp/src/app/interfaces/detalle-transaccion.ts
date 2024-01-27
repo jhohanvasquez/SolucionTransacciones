@@ -1,8 +1,7 @@
 export interface DetalleTransaccion {
-  idComercio: number,
+  codigoComercio: number,
   descripcionComercio: string,
-  color: string,
-  cantidad: number,
-  precioTexto: string,
+  nit: string,
+  direccion: string,
   totalTexto:string
 }

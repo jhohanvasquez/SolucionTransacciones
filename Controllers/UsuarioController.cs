@@ -66,7 +66,7 @@ namespace AppTransacciones.Controllers
                     var resultConsulta = _zonaVirtualRepositorio.Consultar();
                     if (resultConsulta != null)
                     {
-                        _zonaVirtualRepositorio.Save(resultConsulta);
+                       _zonaVirtualRepositorio.Save(resultConsulta);
                     }
                     _response = new Response<Usuario>() { status = true, msg = "ok", value = _usuario };
                 }

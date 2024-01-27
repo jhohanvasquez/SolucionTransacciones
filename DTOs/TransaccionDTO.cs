@@ -1,6 +1,6 @@
 ﻿namespace AppTransacciones.DTOs
 {
-    public class TransaccionDTO
+    public class Transaccion
     {
         public string? codigo { get; set; }
         public int medio_pago { get; set; }

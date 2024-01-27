@@ -20,7 +20,7 @@ namespace AppTransacciones.Repository.Implementacion
         }
 
 
-        public async Task<IEnumerable<TransaccionDTO>> Crear(TransaccionDTO entidad)
+        public async Task<IEnumerable<Transaccion>> Crear(Transaccion entidad)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace AppTransacciones.Repository.Implementacion
                     parameters.Add("identificacionUsuario", entidad.identificacionUsuario);
                     parameters.Add("codigoComercio", entidad.codigoComercio);
 
-                    var result = await connection.QueryAsync<TransaccionDTO>("SP_CrearTransaccion", parameters, commandType: CommandType.StoredProcedure);
+                    var result = await connection.QueryAsync<Transaccion>("SP_CrearTransaccion", parameters, commandType: CommandType.StoredProcedure);
 
                     return result;
                 }
@@ -47,7 +47,7 @@ namespace AppTransacciones.Repository.Implementacion
             }
         }
 
-        public async Task<TransaccionDTO> Obtener(string id)
+        public async Task<Transaccion> Obtener(string id)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace AppTransacciones.Repository.Implementacion
 
                 using (var connection = _dbContext.CreateConnection())
                 {
-                    var result = await connection.QueryAsync<TransaccionDTO>("SP_ObtenerComercioId", parameters, commandType: CommandType.StoredProcedure);
+                    var result = await connection.QueryAsync<Transaccion>("SP_ObtenerComercioId", parameters, commandType: CommandType.StoredProcedure);
 
                     return result.FirstOrDefault();
                 }
