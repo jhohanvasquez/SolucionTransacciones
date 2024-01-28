@@ -15,9 +15,16 @@ Aplicacion realizada en:
 1. Cree una base de datos vacia en sqlServer llamada "DBTransacciones"
 2. Instale la base de datos ejecutando el scrip en sqlServer https://github.com/jhohanvasquez/SolucionTransacciones/blob/master/ScriptBD/ScriptBD.sql
 3. Cambien la conexion de la base de datos por su conexion de sql en el archivo "appseting.Json"  
-4. Realice el ingreso con el usuario: admin@example.com Clave: 12345
-5. Al iniciar sesion este consumira el endpoint de la API: http://pbiz.zonavirtual.com/api/Prueba/Consulta.
-6. Se poblara la base de datos con la informacion recuperada de la API al ingresar.
+4. Realice el ingreso con el usuarios por defecto:
+   
+   * Usuario Administrador: admin@example.com
+   * Clave Administrador: 12345
+
+   * Usuario Pagador: employe@example.com
+   * Clave Pagador: 12345
+     
+6. Al iniciar sesion este consumira el endpoint de la API: http://pbiz.zonavirtual.com/api/Prueba/Consulta.
+7. Se poblara la base de datos con la informacion recuperada de la API al ingresar.
 
 <img width="918" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/6f24a3ff-dfd4-49eb-8854-b490d1005579">
 
