@@ -28,7 +28,7 @@ Aplicacion realizada en:
    * Clave Pagador: 12345
    * <img width="949" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/ec374629-50c5-48ea-9cb3-6969e8da70de">
 
-# Nota: Puede realizar multiples transacciones.
+# Nota: Puede realizar multiples transacciones para diferentes comercios, el campo de comercio es un autocompletable para una mejor busqueda del comercio a seleccionar.
 
      
 6. Al iniciar sesion este consumira el endpoint de la API: http://pbiz.zonavirtual.com/api/Prueba/Consulta.
