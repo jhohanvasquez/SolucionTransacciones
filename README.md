@@ -41,3 +41,6 @@ Aplicacion realizada en:
 <img width="901" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/39b18da2-b259-40ab-af10-28470f16d1c2">
    
 <img width="884" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/8c29917b-c72d-47a0-9c12-5fcbd27091e8">
+
+<img width="221" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/7ca19c6a-1a73-48ad-be60-cef578f59466">
+
