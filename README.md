@@ -19,9 +19,15 @@ Aplicacion realizada en:
    
    * Usuario Administrador: admin@example.com
    * Clave Administrador: 12345
+   * <img width="914" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/db5fb7c1-786d-4411-b5d4-8fc79461c39b">
+   * <img width="922" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/05ef492e-d3f8-4faf-836b-a4d09435dcc6">
+
+
 
    * Usuario Pagador: employe@example.com
    * Clave Pagador: 12345
+   * <img width="928" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/690d273f-7a51-45ad-ba8f-ad957f538710">
+
      
 6. Al iniciar sesion este consumira el endpoint de la API: http://pbiz.zonavirtual.com/api/Prueba/Consulta.
 7. Se poblara la base de datos con la informacion recuperada de la API al ingresar.
