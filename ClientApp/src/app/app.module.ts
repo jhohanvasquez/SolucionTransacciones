@@ -9,6 +9,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ReusableModule } from './components/reusable/reusable.module';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { CookieService } from "ngx-cookie-service";
 
 export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
 
@@ -27,7 +28,7 @@ export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
     ReusableModule,
     NgxMaskModule.forRoot()
   ],
-  providers: [],
+  providers: [CookieService], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

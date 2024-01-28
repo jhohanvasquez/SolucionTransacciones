@@ -3,19 +3,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioServicioService } from '../../services/usuario-servicio.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [CookieService]
 })
 export class LoginComponent implements OnInit {
   formLogin: FormGroup;
-  hidePassword:boolean   = true;
+  hidePassword: boolean = true;
   loading: boolean = false;
 
 
   constructor(
+    private cookieService: CookieService,
     private fb: FormBuilder,
     private router: Router,
     private _snackBar: MatSnackBar,
@@ -38,16 +41,18 @@ export class LoginComponent implements OnInit {
 
     this._usuarioServicio.getIniciarSesion(email, clave).subscribe({
       next: (data) => {
-       
+        debugger;
         if (data.status) {
+          this.cookieService.set('identificacion', data.value.identificacion);
+          this.cookieService.set('idRol', data.value.idRol);
           this.router.navigate(['pages'])
         } else {
           this._snackBar.open("No se encontraron coincidencias", 'Oops!', { duration: 3000 });
         }
-        
+
       },
       error: (e) => {
-        this._snackBar.open("hubo un error", 'Oops!', { duration:3000 });
+        this._snackBar.open("hubo un error", 'Oops!', { duration: 3000 });
       },
       complete: () => {
         this.loading = false;

@@ -20,7 +20,7 @@ namespace AppTransacciones.Repository.Implementacion
         }
 
 
-        public async Task<Transaccion> Crear(Transaccion entidad)
+        public async Task<IEnumerable<Transaccion>> Crear(Transaccion entidad)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace AppTransacciones.Repository.Implementacion
                     DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("codigo", entidad.codigo);
                     parameters.Add("medio_pago", entidad.medio_pago == 0 ? 5 : entidad.medio_pago);
-                    parameters.Add("estado", entidad.estado == 0 ? 5 : entidad.estado);
+                    parameters.Add("estado", entidad.estado == 0 ? 5 : 3);
                     parameters.Add("total", entidad.total);
                     parameters.Add("fecha", entidad.fecha);
                     parameters.Add("concepto", entidad.concepto);
@@ -38,7 +38,7 @@ namespace AppTransacciones.Repository.Implementacion
 
                     var result = await connection.QueryAsync<Transaccion>("SP_CrearTransaccion", parameters, commandType: CommandType.StoredProcedure);
 
-                    return (Transaccion)result;
+                    return result;
                 }
             }
             catch

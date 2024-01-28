@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
 import { ResponseApi } from '../interfaces/response-api';
+import { CookieService } from "ngx-cookie-service";
 
 
 @Injectable({
@@ -41,4 +42,5 @@ export class UsuarioServicioService {
     return this.http.delete<ResponseApi>(`${this.apiBase}Eliminar/${id}`);
 
   }
+
 }

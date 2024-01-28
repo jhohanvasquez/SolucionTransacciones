@@ -32,7 +32,7 @@ namespace AppTransacciones.Controllers
             try
             {
                 var resultRequest = _mapper.Map<Transaccion>(request);
-                Transaccion transaccion_creada = await _transaccionRepositorio.Crear(resultRequest);
+                var transaccion_creada = await _transaccionRepositorio.Crear(resultRequest);
                 request = _mapper.Map<TransaccionDTO>(transaccion_creada);
                 _response = new Response<TransaccionDTO>() { status = true, msg = "ok", value = request };
 

@@ -10,7 +10,7 @@
 
     <mat-nav-list>
 
-      <mat-list-item routerLink="/pages/usuarios">
+      <mat-list-item routerLink="/pages/usuarios" *ngIf ="idRolAdmin">
         <mat-icon mat-list-icon>group</mat-icon>
         <div mat-line>Usuarios</div>
       </mat-list-item>

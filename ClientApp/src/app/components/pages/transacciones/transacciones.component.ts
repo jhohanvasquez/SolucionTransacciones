@@ -11,13 +11,15 @@ import { Transaccion } from '../../../interfaces/transaccion';
 import { DialogResultadoTransaccionComponent } from '../modals/dialog-resultado-transaccion/dialog-resultado-transaccion.component';
 import { MedioPagoService } from '../../../services/medio-pago-servicio.service';
 import { MedioPago } from '../../../interfaces/medio-pago';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
 @Component({
   selector: 'app-transacciones',
   templateUrl: './transacciones.component.html',
-  styleUrls: ['./transacciones.component.css']
+  styleUrls: ['./transacciones.component.css'],
+  providers: [CookieService]
 })
 export class TransaccionesComponent implements OnInit {
   options: Comercio[] = [];
@@ -37,6 +39,7 @@ export class TransaccionesComponent implements OnInit {
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   constructor(
+    private cookieService: CookieService,
     private fb: FormBuilder,
     private _comercioServicio: ComercioService,
     private _transaccionServicio: TransaccionService,
@@ -164,7 +167,8 @@ export class TransaccionesComponent implements OnInit {
           nombreComercio: '',
           medio_pago: item.medio_pago,
           concepto: item.concepto,
-          total: item.total
+          total: item.total,
+          identificacionUsuario: this.cookieService.get('identificacion'),
         }
 
         this._transaccionServicio.registrar(transaccionDto).subscribe({
@@ -183,7 +187,7 @@ export class TransaccionesComponent implements OnInit {
               });
 
             } else {
-              this._snackBar.open("No se pudo registrar la transaccion", "Oops", {
+              this._snackBar.open("No se pudo registrar la transaccion codigo" + item.codigo, "Oops", {
                 horizontalPosition: "end",
                 verticalPosition: "top",
                 duration: 3000

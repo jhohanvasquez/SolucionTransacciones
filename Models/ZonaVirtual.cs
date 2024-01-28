@@ -12,7 +12,7 @@ namespace AppTransacciones.Models
         public int Trans_codigo { get; set; }
         public int Trans_medio_pago { get; set; }
         public int Trans_estado { get; set; }
-        public double Trans_total { get; set; }
+        public string? Trans_total { get; set; }
         public string? Trans_fecha { get; set; }
         public string? Trans_concepto { get; set; }
         public string? usuario_identificacion { get; set; }
