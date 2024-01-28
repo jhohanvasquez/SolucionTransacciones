@@ -25,13 +25,15 @@ export class TransaccionesComponent implements OnInit {
   deshabilitado: boolean = false;
 
   filteredOptions!: Comercio[];
-  agregarTransaccion!: Transaccion;
+  agregarComercio!: Comercio;
+  agregarMedioPago!: MedioPago;
   tipodePago: string = "Efectivo";
   totalPagar: number = 0;
   listaMedioPago: MedioPago[] = [];
+  nombreComercio: string = '';
 
   formGroup: FormGroup;
-  displayedColumns: string[] = ['comercio', 'medio_pago', 'concepto', 'estado', 'total','accion'];
+  displayedColumns: string[] = ['comercio', 'medio_pago', 'concepto', 'total', 'accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   constructor(
@@ -44,11 +46,11 @@ export class TransaccionesComponent implements OnInit {
   ) {
 
     this.formGroup = this.fb.group({
-      codigo: [0, Validators.required],
+      codigo: ['', Validators.required],
       comercio: ['', Validators.required],
       medio_pago: ['', Validators.required],
       concepto: ['', Validators.required],
-      total: [0, Validators.required]
+      total: ['', Validators.required]
     })
 
     this.formGroup.get('comercio')?.valueChanges.subscribe(value => {
@@ -99,28 +101,42 @@ export class TransaccionesComponent implements OnInit {
   }
 
   comercioSeleccionado(event: any) {
-    this.agregarTransaccion = event.option.value;
+    this.agregarComercio = event.option.value;
+  }
+
+  medioPagoSeleccionado(event: any) {
+    debugger;
+    let target = event.source.selected._element.nativeElement;
+    this.agregarMedioPago = {
+      idMedio: event.value,
+      descripcion: target.innerText.trim()
+    };
   }
 
   onSubmitForm() {
 
-    this.totalPagar = this.totalPagar;
-
     this.ELEMENT_DATA.push(
       {
-        codigo: this.agregarTransaccion.codigo,
-        codigoComercio: this.agregarTransaccion.codigoComercio,
-        medio_pago: this.agregarTransaccion.medio_pago,
-        concepto: this.agregarTransaccion.concepto,
-        total: Number(this.agregarTransaccion.total.toFixed(2))
+        codigo: this.formGroup.value.codigo,
+        codigoComercio: this.agregarComercio.codigo,
+        nombreComercio: this.agregarComercio.nombre,
+        medio_pago: this.agregarMedioPago.idMedio,
+        nombreMediopago: this.agregarMedioPago.descripcion,
+        concepto: this.formGroup.value.concepto,
+        total: this.formGroup.value.total
       })
+
+    debugger;
+
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
     this.formGroup.patchValue({
       codigo: '',
       comercio: '',
-      concepto: '',
+      codigoComercio: '',
+      nombreComercio: '',      
       medio_pago: '',
+      concepto: '',
       total: ''
     })
 
@@ -139,46 +155,49 @@ export class TransaccionesComponent implements OnInit {
     if (this.ELEMENT_DATA.length > 0) {
 
       this.deshabilitado = true;
-      
 
-      const transaccionDto: Transaccion = {
-        codigo: this.agregarTransaccion.codigo,
-        codigoComercio: this.agregarTransaccion.codigoComercio,
-        medio_pago: this.agregarTransaccion.medio_pago,
-        concepto: this.agregarTransaccion.concepto,
-        total: Number(this.agregarTransaccion.total.toFixed(2))
-      }
+      this.ELEMENT_DATA.forEach( (item) => {
 
-      this._transaccionServicio.registrar(transaccionDto).subscribe({
-        next: (data) => {
-
-          if (data.status) {
-            this.totalPagar = 0.00;
-            this.ELEMENT_DATA = [];
-            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-            this.tipodePago = "Efectivo";
-
-            this.dialog.open(DialogResultadoTransaccionComponent, {
-              data: {
-                numero: data.value.numeroDocumento
-              },
-            });
-
-          } else {
-            this._snackBar.open("No se pudo registrar la transaccion", "Oops", {
-              horizontalPosition: "end",
-              verticalPosition: "top",
-              duration: 3000
-            });
-          }
-        },
-        error: (e) => {
-        },
-        complete: () => {
-          this.deshabilitado = false;
+        const transaccionDto: Transaccion = {
+          codigo: item.codigo,
+          codigoComercio: item.codigoComercio,
+          nombreComercio: '',
+          medio_pago: item.medio_pago,
+          concepto: item.concepto,
+          total: item.total
         }
-      })
 
+        this._transaccionServicio.registrar(transaccionDto).subscribe({
+          next: (data) => {
+
+            if (data.status) {
+              this.totalPagar = 0.00;
+              this.ELEMENT_DATA = [];
+              this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+              this.tipodePago = "Efectivo";
+
+              this.dialog.open(DialogResultadoTransaccionComponent, {
+                data: {
+                  numero: data.value.numeroDocumento
+                },
+              });
+
+            } else {
+              this._snackBar.open("No se pudo registrar la transaccion", "Oops", {
+                horizontalPosition: "end",
+                verticalPosition: "top",
+                duration: 3000
+              });
+            }
+          },
+          error: (e) => {
+          },
+          complete: () => {
+            this.deshabilitado = false;
+          }
+        })
+       
+      }); 
 
     }
   }

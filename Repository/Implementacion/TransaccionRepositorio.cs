@@ -20,7 +20,7 @@ namespace AppTransacciones.Repository.Implementacion
         }
 
 
-        public async Task<IEnumerable<Transaccion>> Crear(Transaccion entidad)
+        public async Task<Transaccion> Crear(Transaccion entidad)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace AppTransacciones.Repository.Implementacion
 
                     var result = await connection.QueryAsync<Transaccion>("SP_CrearTransaccion", parameters, commandType: CommandType.StoredProcedure);
 
-                    return result;
+                    return (Transaccion)result;
                 }
             }
             catch

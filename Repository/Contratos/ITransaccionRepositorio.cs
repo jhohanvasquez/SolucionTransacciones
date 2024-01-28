@@ -7,6 +7,6 @@ namespace AppTransacciones.Repository.Contratos
     public interface ITransaccionRepositorio
     {
         Task<Transaccion> Obtener(int id);
-        Task<IEnumerable<Transaccion>> Crear(Transaccion entidad);
+        Task<Transaccion> Crear(Transaccion entidad);
     }
 }

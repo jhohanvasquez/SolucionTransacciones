@@ -53,49 +53,23 @@ namespace AppTransacciones.Utilidades
 
 
             #region Transaccion
-            //CreateMap<Transaccion, TransaccionDTO>()
-            //    .ForMember(destino =>
-            //        destino.TotalTexto,
-            //        opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-PE")))
-            //    ).ForMember(destino =>
-            //        destino.FechaRegistro,
-            //        opt => opt.MapFrom(origen => origen.FechaRegistro.Value.ToString("dd/MM/yyyy"))
-            //    );
+            CreateMap<Transaccion, TransaccionDTO>()
+                .ForMember(destino =>
+                    destino.total,
+                    opt => opt.MapFrom(origen => Convert.ToString(origen.total, new CultureInfo("es-PE")))
+                ).ForMember(destino =>
+                    destino.fecha,
+                    opt => opt.MapFrom(origen => origen.fecha)
+                );
 
-            //CreateMap<TransaccionDTO, Transaccion>()
-            //    .ForMember(destino =>
-            //        destino.Total,
-            //        opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-PE")))
-            //    );
+            CreateMap<TransaccionDTO, Transaccion>()
+                .ForMember(destino =>
+                    destino.total,
+                    opt => opt.MapFrom(origen => Convert.ToDecimal(origen.total, new CultureInfo("es-PE")))
+                );
 
             #endregion Transaccion
 
-
-            //#region DetalleTransaccion
-            //CreateMap<DetalleTransaccion, DetalleTransaccionDTO>()
-            //    .ForMember(destino =>
-            //        destino.DescripcionComercio,
-            //        opt => opt.MapFrom(origen => origen.IdComercioNavigation.Nombre)
-            //    )
-            //    .ForMember(destino =>
-            //        destino.PrecioTexto,
-            //        opt => opt.MapFrom(origen => Convert.ToString(origen.Precio.Value, new CultureInfo("es-PE")))
-            //    )
-            //    .ForMember(destino =>
-            //        destino.TotalTexto,
-            //        opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-PE")))
-            //    );
-
-            //CreateMap<DetalleTransaccionDTO, DetalleTransaccion>()
-            //    .ForMember(destino =>
-            //        destino.Precio,
-            //        opt => opt.MapFrom(origen => Convert.ToDecimal(origen.PrecioTexto, new CultureInfo("es-PE")))
-            //    )
-            //    .ForMember(destino =>
-            //        destino.Total,
-            //        opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-PE")))
-            //    );
-            //#endregion      
 
         }
 
