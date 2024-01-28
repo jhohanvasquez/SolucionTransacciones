@@ -69,7 +69,7 @@ export class TransaccionesComponent implements OnInit {
 
     this._medioPagoServicio.getMedioPagos().subscribe({
       next: (data) => {
-
+        debugger;
         if (data.status) {
 
           this.listaMedioPago = data.value;          

@@ -13,11 +13,11 @@ namespace AppTransacciones.Controllers
     public class MedioPagoController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IMedioPagoRepositorio _rolRepositorio;
-        public MedioPagoController(IMedioPagoRepositorio rolRepositorio, IMapper mapper)
+        private readonly IMedioPagoRepositorio _medioPagoRepositorio;
+        public MedioPagoController(IMedioPagoRepositorio medioPagoRepositorio, IMapper mapper)
         {
             _mapper = mapper;
-            _rolRepositorio = rolRepositorio;
+            _medioPagoRepositorio = medioPagoRepositorio;
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace AppTransacciones.Controllers
             try
             {
                 List<MedioPagoDTO> _listaMedioPagoes = new List<MedioPagoDTO>();
-                _listaMedioPagoes = _mapper.Map<List<MedioPagoDTO>>(await _rolRepositorio.Lista());
+                _listaMedioPagoes = _mapper.Map<List<MedioPagoDTO>>(await _medioPagoRepositorio.Lista());
 
                 if (_listaMedioPagoes.Count > 0)
                     _response = new Response<List<MedioPagoDTO>>() { status = true, msg = "ok", value = _listaMedioPagoes };

@@ -8,10 +8,10 @@ const PROXY_CONFIG = [
     context: [
       "/api/rol",
       "/api/usuario",
-      "/api/DepartamentoTransaccion",
       "/api/comercio",
       "/api/transaccion",
       "/api/dashboard",
+      "/api/medioPago"
    ],
     target: target,
     secure: false

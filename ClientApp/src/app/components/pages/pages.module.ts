@@ -14,7 +14,6 @@ import { DialogDeleteUsuarioComponent } from './modals/dialog-delete-usuario/dia
 import { ComerciosComponent } from './comercios/comercios.component';
 import { TransaccionesComponent } from './transacciones/transacciones.component';
 import { DialogDeleteComercioComponent } from './modals/dialog-delete-comercio/dialog-delete-comercio.component';
-import { DialogDetalleTransaccionComponent } from './modals/dialog-detalle-transaccion/dialog-detalle-transaccion.component';
 import { DialogResultadoTransaccionComponent } from './modals/dialog-resultado-transaccion/dialog-resultado-transaccion.component';
 
 
@@ -31,7 +30,6 @@ import { DialogResultadoTransaccionComponent } from './modals/dialog-resultado-t
     DialogComercioComponent,
     DialogDeleteUsuarioComponent,
     DialogDeleteComercioComponent,
-    DialogDetalleTransaccionComponent,
     DialogResultadoTransaccionComponent,
   ],
   imports: [

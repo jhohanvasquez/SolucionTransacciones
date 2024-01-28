@@ -6,18 +6,9 @@
   <mat-card-content class="dashboard-card-content">
 
     <form class="example-form" [formGroup]="formGroup" (ngSubmit)="onSubmitForm()">
-      <mat-grid-list cols="3" rowHeight="80px">
+      <mat-grid-list cols="4" rowHeight="80px">
 
         <mat-grid-tile>
-
-          <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
-            <mat-label>Codigo</mat-label>
-            <input matInput type="number" formControlName="codigo">
-          </mat-form-field>
-
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="2">
 
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Comercio</mat-label>
@@ -41,22 +32,26 @@
         <mat-grid-tile>
 
           <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
-            <mat-label>Concepto</mat-label>
-            <input matInput type="text" formControlName="concepto">
+            <mat-label>Codigo</mat-label>
+            <input matInput type="number" formControlName="codigo">
           </mat-form-field>
 
         </mat-grid-tile>
 
-        <mat-grid-tile>
-          <button mat-raised-button color="primary" style="width: 80%;" [disabled]="formGroup.invalid"><mat-icon>add</mat-icon> Agregar</button>
-        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2">
+
+          <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
+            <mat-label>Concepto</mat-label>
+            <input matInput type="text" formControlName="concepto">
+          </mat-form-field>
+
+        </mat-grid-tile>      
 
       </mat-grid-list>
     </form>
 
     <mat-grid-list cols="4" rowHeight="80px">
-      <mat-grid-tile></mat-grid-tile>
-      <mat-grid-tile></mat-grid-tile>
+
       <mat-grid-tile>
 
         <mat-form-field appearance="outline">
@@ -79,9 +74,10 @@
 
       </mat-grid-tile>
 
-      <mat-grid-tile style="text-align:end">
-        <button mat-raised-button color="accent" style="width: 80%;">Total: S/. {{totalPagar.toFixed(2)}}</button>
+      <mat-grid-tile>
+        <button mat-raised-button color="primary" style="width: 80%;" [disabled]="formGroup.invalid"><mat-icon>add</mat-icon> Agregar</button>
       </mat-grid-tile>
+
     </mat-grid-list>
 
     <div class="mat-elevation-z2">
