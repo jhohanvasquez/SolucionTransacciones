@@ -10,33 +10,31 @@
 
     <mat-nav-list>
 
-      <mat-list-item routerLink="/pages/usuarios" *ngIf ="idRolAdmin">
+      <mat-list-item routerLink="/pages/usuarios" *ngIf="idRolAdmin">
         <mat-icon mat-list-icon>group</mat-icon>
         <div mat-line>Usuarios</div>
       </mat-list-item>
 
-      <mat-list-item routerLink="/pages/comercios">
+      <mat-list-item routerLink="/pages/comercios" *ngIf="idRolAdmin">
         <mat-icon mat-list-icon>group</mat-icon>
         <div mat-line>Comercios</div>
       </mat-list-item>
 
     </mat-nav-list>
 
-    <mat-nav-list>     
+    <mat-nav-list>
 
       <mat-list-item routerLink="/pages/dashboard">
         <mat-icon mat-list-icon>dashboard</mat-icon>
         <div mat-line>DashBoard</div>
       </mat-list-item>
 
-      <mat-list-item routerLink="/pages/transacciones">
+      <mat-list-item routerLink="/pages/transacciones" *ngIf ="idRolPagador">
         <mat-icon mat-list-icon>group</mat-icon>
         <div mat-line>Transacciones</div>
       </mat-list-item>
 
     </mat-nav-list>
-
-
 
   </mat-sidenav>
   <mat-sidenav-content>

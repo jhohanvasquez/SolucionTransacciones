@@ -19,6 +19,19 @@ namespace AppTransacciones.Repository.Implementacion
             _dbContext = dbContext;
         }
 
+        public async Task<Comercio> Consultar(int? codigo)
+        {
+            using (var connection = _dbContext.CreateConnection())
+            {
+
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("codigo", codigo);
+
+                var result = await connection.QueryAsync<Comercio>("SP_ObtenerTransaccionId", parameters, commandType: CommandType.StoredProcedure);
+
+                return result.FirstOrDefault();
+            }
+        }
 
         public async Task<IEnumerable<Transaccion>> Crear(Transaccion entidad)
         {
@@ -31,7 +44,7 @@ namespace AppTransacciones.Repository.Implementacion
                     parameters.Add("medio_pago", entidad.medio_pago == 0 ? 5 : entidad.medio_pago);
                     parameters.Add("estado", entidad.estado == 0 ? 5 : 3);
                     parameters.Add("total", entidad.total);
-                    parameters.Add("fecha", entidad.fecha);
+                    parameters.Add("fecha", DateTime.Now.ToString());
                     parameters.Add("concepto", entidad.concepto);
                     parameters.Add("identificacionUsuario", entidad.identificacionUsuario);
                     parameters.Add("codigoComercio", entidad.codigoComercio);

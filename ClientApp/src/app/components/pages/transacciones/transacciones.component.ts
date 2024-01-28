@@ -118,20 +118,35 @@ export class TransaccionesComponent implements OnInit {
 
   onSubmitForm() {
 
-    this.ELEMENT_DATA.push(
-      {
-        codigo: this.formGroup.value.codigo,
-        codigoComercio: this.agregarComercio.codigo,
-        nombreComercio: this.agregarComercio.nombre,
-        medio_pago: this.agregarMedioPago.idMedio,
-        nombreMediopago: this.agregarMedioPago.descripcion,
-        concepto: this.formGroup.value.concepto,
-        total: this.formGroup.value.total
-      })
+    this._transaccionServicio.consultar(this.formGroup.value.codigo).subscribe({
+      next: (data) => {
 
-    debugger;
+        if (data.status) {
+          this._snackBar.open("No se pudo registrar la transaccion el codigo" + this.formGroup.value.codigo + ' ya se encuentra registrado.', "Oops", {
+            horizontalPosition: "end",
+            verticalPosition: "top",
+            duration: 3000
+          });
 
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+        } else {
+
+          this.ELEMENT_DATA.push(
+            {
+              codigo: this.formGroup.value.codigo,
+              codigoComercio: this.agregarComercio.codigo,
+              nombreComercio: this.agregarComercio.nombre,
+              medio_pago: this.agregarMedioPago.idMedio,
+              nombreMediopago: this.agregarMedioPago.descripcion,
+              concepto: this.formGroup.value.concepto,
+              total: this.formGroup.value.total
+            })
+
+          debugger;
+
+          this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+        }
+      }
+    });
 
     this.formGroup.patchValue({
       codigo: '',
@@ -171,27 +186,46 @@ export class TransaccionesComponent implements OnInit {
           identificacionUsuario: this.cookieService.get('identificacion'),
         }
 
-        this._transaccionServicio.registrar(transaccionDto).subscribe({
+        this._transaccionServicio.consultar(item.codigo).subscribe({
           next: (data) => {
 
             if (data.status) {
-              this.totalPagar = 0.00;
-              this.ELEMENT_DATA = [];
-              this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-              this.tipodePago = "Efectivo";
-
-              this.dialog.open(DialogResultadoTransaccionComponent, {
-                data: {
-                  numero: data.value.numeroDocumento
-                },
-              });
-
-            } else {
-              this._snackBar.open("No se pudo registrar la transaccion codigo" + item.codigo, "Oops", {
+              this._snackBar.open("No se pudo registrar la transaccion el codigo" + item.codigo + ' ya se encuentra registrado.', "Oops", {
                 horizontalPosition: "end",
                 verticalPosition: "top",
                 duration: 3000
               });
+
+            } else {
+              this._transaccionServicio.registrar(transaccionDto).subscribe({
+                next: (data) => {
+
+                  if (data.status) {
+                    this.totalPagar = 0.00;
+                    this.ELEMENT_DATA = [];
+                    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+                    this.tipodePago = "Efectivo";
+
+                    this.dialog.open(DialogResultadoTransaccionComponent, {
+                      data: {
+                        codigo: item.codigo
+                      },
+                    });
+
+                  } else {
+                    this._snackBar.open("No se pudo registrar la transaccion codigo" + item.codigo, "Oops", {
+                      horizontalPosition: "end",
+                      verticalPosition: "top",
+                      duration: 3000
+                    });
+                  }
+                },
+                error: (e) => {
+                },
+                complete: () => {
+                  this.deshabilitado = false;
+                }
+              })
             }
           },
           error: (e) => {
@@ -199,7 +233,7 @@ export class TransaccionesComponent implements OnInit {
           complete: () => {
             this.deshabilitado = false;
           }
-        })
+        })       
        
       }); 
 

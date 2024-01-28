@@ -1,4 +1,6 @@
-﻿namespace AppTransacciones.Utilidades
+﻿using AppTransacciones.Models;
+
+namespace AppTransacciones.Utilidades
 {
     public class Response<T>
     {
@@ -6,5 +8,9 @@
         public string? msg { get; set; }
         public T? value { get; set; }
 
+        public static implicit operator Response<T>(Response<Transaccion> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

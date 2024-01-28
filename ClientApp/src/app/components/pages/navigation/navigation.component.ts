@@ -11,7 +11,9 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class NavigationComponent {
 
-  idRolAdmin: boolean;
+  idRolAdmin: boolean = false;
+  idRolComercio: boolean = false;
+  idRolPagador: boolean = false;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -20,6 +22,8 @@ export class NavigationComponent {
 
   constructor(private cookieService: CookieService, private breakpointObserver: BreakpointObserver) {
     this.idRolAdmin = this.cookieService.get('idRol') == "1" ? true : false;
+    this.idRolComercio = this.cookieService.get('idRol') == "2" ? true : false;
+    this.idRolPagador = this.cookieService.get('idRol') == "3" ? true : false;
   }
 
 }

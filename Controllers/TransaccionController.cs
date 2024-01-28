@@ -1,6 +1,7 @@
 ﻿using AppTransacciones.DTOs;
 using AppTransacciones.Models;
 using AppTransacciones.Repository.Contratos;
+using AppTransacciones.Repository.Implementacion;
 using AppTransacciones.Utilidades;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,33 @@ namespace AppTransacciones.Controllers
             _transaccionRepositorio = transaccionRepositorio;
         }
 
+        [HttpGet]
+        [Route("Consultar/{codigo:int}")]
+        public async Task<IActionResult> Consultar(int codigo)
+        {
+            Response<string> _response = new Response<string>();
+            try
+            {
+                Transaccion _transaccionConsulta = await _transaccionRepositorio.Obtener(codigo);
+
+                if (_transaccionConsulta != null)
+                {
+                    _response = new Response<Transaccion>() { status = true, msg = "ok", value = _transaccionConsulta };
+                }
+                else
+                {
+                    _response = new Response<Transaccion>() { status = false, msg = "sin resultados", value = null };
+                }
+
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new Response<string>() { status = false, msg = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            }
+        }
+
 
         [HttpPost]
         [Route("Registrar")]
@@ -33,7 +61,6 @@ namespace AppTransacciones.Controllers
             {
                 var resultRequest = _mapper.Map<Transaccion>(request);
                 var transaccion_creada = await _transaccionRepositorio.Crear(resultRequest);
-                request = _mapper.Map<TransaccionDTO>(transaccion_creada);
                 _response = new Response<TransaccionDTO>() { status = true, msg = "ok", value = request };
 
                 return StatusCode(StatusCodes.Status200OK, _response);

@@ -28,4 +28,10 @@ export class TransaccionService {
     return this.http.get<ResponseApi>(`${this.apiBase}Reporte?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`);
 
   }
+
+  consultar(codigo: number): Observable<ResponseApi> {
+
+    return this.http.get<ResponseApi>(`${this.apiBase}Consultar?codigo=${codigo}`);
+
+  }
 }
