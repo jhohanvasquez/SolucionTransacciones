@@ -11,7 +11,8 @@ const PROXY_CONFIG = [
       "/api/comercio",
       "/api/transaccion",
       "/api/dashboard",
-      "/api/medioPago"
+      "/api/medioPago",
+      "/api/reporte"
    ],
     target: target,
     secure: false

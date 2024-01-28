@@ -50,16 +50,12 @@ namespace AppTransacciones.Repository.Implementacion
                     }
                 }
 
-                if (item.Trans != null && item.comercio != null)
+                if (item.Trans != null)
                 {
-                    var resutlComercio = await _comercioRepositorio.Consultar(item.comercio.codigo);
-                    if (resutlComercio != null)
+                    var resutTransaccion = await _transaccionRepositorio.Obtener(item.Trans.codigo);
+                    if (resutTransaccion == null)
                     {
-                        var resutTransaccion = await _transaccionRepositorio.Obtener(item.Trans.codigo);
-                        if (resutTransaccion == null)
-                        {
-                            await _transaccionRepositorio.Crear(item.Trans);
-                        }
+                        await _transaccionRepositorio.Crear(item.Trans);
                     }
                 }
 

@@ -15,7 +15,8 @@ import { ComerciosComponent } from './comercios/comercios.component';
 import { TransaccionesComponent } from './transacciones/transacciones.component';
 import { DialogDeleteComercioComponent } from './modals/dialog-delete-comercio/dialog-delete-comercio.component';
 import { DialogResultadoTransaccionComponent } from './modals/dialog-resultado-transaccion/dialog-resultado-transaccion.component';
-import { ReportesComponent } from './reporte/reportes.component';
+import { ReportesComponent } from './reportes/reportes.component';
+
 
 
 

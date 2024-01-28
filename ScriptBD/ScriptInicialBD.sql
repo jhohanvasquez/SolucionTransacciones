@@ -1,6 +1,6 @@
 USE [DBTransacciones]
 GO
-/****** Object:  Table [dbo].[comercios]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  Table [dbo].[comercios]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[comercios](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[estado]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  Table [dbo].[estado]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -31,7 +31,7 @@ CREATE TABLE [dbo].[estado](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[mediosPago]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  Table [dbo].[mediosPago]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -46,7 +46,7 @@ CREATE TABLE [dbo].[mediosPago](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[rol]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  Table [dbo].[rol]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -62,7 +62,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[transaciones]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  Table [dbo].[transaciones]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -71,9 +71,9 @@ CREATE TABLE [dbo].[transaciones](
 	[codigo] [int] NOT NULL,
 	[medio_pago] [int] NULL,
 	[estado] [int] NULL,
-	[total] [float] NULL,
-	[fecha] [varchar](20) NULL,
-	[concepto] [varchar](50) NULL,
+	[total] [int] NULL,
+	[fecha] [varchar](50) NULL,
+	[concepto] [varchar](250) NULL,
 	[identificacionUsuario] [varchar](20) NULL,
 	[codigoComercio] [int] NULL,
  CONSTRAINT [PK_transaciones] PRIMARY KEY CLUSTERED 
@@ -82,7 +82,7 @@ CREATE TABLE [dbo].[transaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[usuarios]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  Table [dbo].[usuarios]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,12 +99,6 @@ CREATE TABLE [dbo].[usuarios](
 	[identificacion] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-GO
-SET IDENTITY_INSERT [dbo].[comercios] ON 
-GO
-INSERT [dbo].[comercios] ([codigo], [nombre], [nit], [direccion]) VALUES (6853, N'comercio', N'1', N'direccion prueba')
-GO
-SET IDENTITY_INSERT [dbo].[comercios] OFF
 GO
 SET IDENTITY_INSERT [dbo].[estado] ON 
 GO
@@ -156,20 +150,22 @@ INSERT [dbo].[usuarios] ([identificacion], [nombre], [email], [idRol], [clave], 
 GO
 ALTER TABLE [dbo].[rol] ADD  DEFAULT (getdate()) FOR [fechaRegistro]
 GO
-ALTER TABLE [dbo].[transaciones]  WITH CHECK ADD  CONSTRAINT [FK_transaciones_comercios] FOREIGN KEY([codigoComercio])
+ALTER TABLE [dbo].[transaciones]  WITH NOCHECK ADD  CONSTRAINT [FK_transaciones_comercios] FOREIGN KEY([codigoComercio])
 REFERENCES [dbo].[comercios] ([codigo])
+NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[transaciones] CHECK CONSTRAINT [FK_transaciones_comercios]
+ALTER TABLE [dbo].[transaciones] NOCHECK CONSTRAINT [FK_transaciones_comercios]
 GO
 ALTER TABLE [dbo].[transaciones]  WITH CHECK ADD  CONSTRAINT [FK_transaciones_estado] FOREIGN KEY([estado])
 REFERENCES [dbo].[estado] ([idEstado])
 GO
 ALTER TABLE [dbo].[transaciones] CHECK CONSTRAINT [FK_transaciones_estado]
 GO
-ALTER TABLE [dbo].[transaciones]  WITH CHECK ADD  CONSTRAINT [FK_transaciones_mediosPago] FOREIGN KEY([medio_pago])
+ALTER TABLE [dbo].[transaciones]  WITH NOCHECK ADD  CONSTRAINT [FK_transaciones_mediosPago] FOREIGN KEY([medio_pago])
 REFERENCES [dbo].[mediosPago] ([idMedio])
+NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[transaciones] CHECK CONSTRAINT [FK_transaciones_mediosPago]
+ALTER TABLE [dbo].[transaciones] NOCHECK CONSTRAINT [FK_transaciones_mediosPago]
 GO
 ALTER TABLE [dbo].[transaciones]  WITH CHECK ADD  CONSTRAINT [FK_transaciones_usuarios] FOREIGN KEY([identificacionUsuario])
 REFERENCES [dbo].[usuarios] ([identificacion])
@@ -181,7 +177,7 @@ REFERENCES [dbo].[rol] ([idRol])
 GO
 ALTER TABLE [dbo].[usuarios] CHECK CONSTRAINT [FK_usuarios_rol]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ConsultarComercios]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ConsultarComercios]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -194,7 +190,7 @@ FROM comercios
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ConsultarComerciosId]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ConsultarComerciosId]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -209,7 +205,20 @@ WHERE [codigo] = @codigo
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CrearComercio]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ConsultarTransacciones]    Script Date: 28/01/2024 1:19:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ConsultarTransacciones]
+AS
+BEGIN 
+SELECT *
+FROM transaciones
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_CrearComercio]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -219,6 +228,8 @@ CREATE PROCEDURE [dbo].[SP_CrearComercio]
 	   @nit varchar(20),
 	   @direccion varchar(250)
 AS
+BEGIN 
+IF (@nombre IS NOT NULL AND @nombre != '')
 BEGIN 
 INSERT INTO [dbo].[comercios]
            ([nombre]
@@ -230,10 +241,11 @@ INSERT INTO [dbo].[comercios]
            ,@direccion)
 
 		   SELECT SCOPE_IDENTITY()
+    END
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CrearProducto]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_CrearProducto]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -260,7 +272,7 @@ INSERT INTO [dbo].[comercios]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CrearTransaccion]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_CrearTransaccion]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -269,17 +281,13 @@ CREATE PROCEDURE [dbo].[SP_CrearTransaccion]
            @codigo int,
 		   @medio_pago int,
 		   @estado int,
-		   @identificacionUsuario int,
+		   @identificacionUsuario varchar(20),
 		   @codigoComercio int,
-           @concepto varchar(50),
+           @concepto varchar(250),
            @fecha varchar(100),
            @total decimal(10,2)
 AS
 BEGIN 
-IF EXISTS (SELECT * 
-                  FROM [dbo].[estado]
-                  WHERE idEstado = @estado)
-   BEGIN
    
 INSERT INTO [dbo].[transaciones]
            (codigo ,
@@ -302,10 +310,8 @@ INSERT INTO [dbo].[transaciones]
 
 		   SELECT SCOPE_IDENTITY()
      END 
-END
-
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CrearUsuario]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_CrearUsuario]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -352,7 +358,7 @@ INSERT INTO [dbo].[usuarios]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_EditarComercio]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_EditarComercio]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -372,7 +378,7 @@ UPDATE [dbo].[comercios]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_EditarUsuario]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_EditarUsuario]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -396,7 +402,7 @@ UPDATE [dbo].[usuarios]
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_EliminarComercio]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_EliminarComercio]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -411,7 +417,7 @@ WHERE codigo = @codigo
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_EliminarUsuario]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_EliminarUsuario]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -433,7 +439,7 @@ WHERE [identificacion] = @identificacion
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ListarMedioPago]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ListarMedioPago]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -445,7 +451,7 @@ SELECT *
 FROM [dbo].[mediosPago]
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ListarRol]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ListarRol]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -457,7 +463,7 @@ SELECT *
 FROM [dbo].[Rol]
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ListarUsuario]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ListarUsuario]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -470,7 +476,7 @@ FROM usuarios
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerComercioId]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerComercioId]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -485,7 +491,7 @@ WHERE [codigo] = @codigo
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerTransaccionComercioId]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerTransaccionComercioId]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -500,7 +506,7 @@ WHERE [codigoComercio] = @codigoComercio
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerTransaccionId]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerTransaccionId]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -515,7 +521,22 @@ WHERE [codigo] = @codigo
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuario]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerTransaccionUsuarioId]    Script Date: 28/01/2024 1:19:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ObtenerTransaccionUsuarioId]
+	   @identificacionUsuario	varchar(20) 
+AS
+BEGIN 
+SELECT *
+FROM transaciones 
+WHERE [identificacionUsuario] = @identificacionUsuario
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuario]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -532,7 +553,7 @@ WHERE [email] = @email AND [clave] = @clave
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuarioId]    Script Date: 28/01/2024 11:53:16 a. m. ******/
+/****** Object:  StoredProcedure [dbo].[SP_ObtenerUsuarioId]    Script Date: 28/01/2024 1:19:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
