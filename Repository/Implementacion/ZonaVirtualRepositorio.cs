@@ -97,38 +97,42 @@ namespace AppTransacciones.Repository.Implementacion
         {
             List<ZonaVirtualDTO> zonaVirtualDTOs = new List<ZonaVirtualDTO>();
 
-            foreach (var itemZonaVirtual in responseZonaVirtual)
+            if (responseZonaVirtual != null)
             {
-                ZonaVirtualDTO oZonaVirtualDTOs = new ZonaVirtualDTO();
-
-                oZonaVirtualDTOs.usuario = new Usuario
+                foreach (var itemZonaVirtual in responseZonaVirtual)
                 {
-                    identificacion = itemZonaVirtual.usuario_identificacion,
-                    email = itemZonaVirtual.usuario_email,
-                    nombre = itemZonaVirtual.usuario_nombre
-                };
+                    ZonaVirtualDTO oZonaVirtualDTOs = new ZonaVirtualDTO();
 
-                oZonaVirtualDTOs.comercio = new Comercio
-                {
-                    codigo = itemZonaVirtual.comercio_codigo,
-                    nombre = itemZonaVirtual.comercio_nombre,
-                    nit = itemZonaVirtual.comercio_nit,
-                    direccion = itemZonaVirtual.comercio_direccion
-                };
+                    oZonaVirtualDTOs.usuario = new Usuario
+                    {
+                        identificacion = itemZonaVirtual.usuario_identificacion,
+                        email = itemZonaVirtual.usuario_email,
+                        nombre = itemZonaVirtual.usuario_nombre
+                    };
 
-                oZonaVirtualDTOs.Trans = new Transaccion
-                {
-                    codigo = itemZonaVirtual.Trans_codigo,
-                    medio_pago = itemZonaVirtual.Trans_medio_pago,
-                    estado = itemZonaVirtual.Trans_estado,
-                    total = itemZonaVirtual.Trans_total,
-                    fecha = itemZonaVirtual.Trans_fecha,
-                    concepto = itemZonaVirtual.Trans_concepto,
-                    identificacionUsuario = itemZonaVirtual.usuario_identificacion,
-                    codigoComercio = itemZonaVirtual.comercio_codigo
-                };
+                    oZonaVirtualDTOs.comercio = new Comercio
+                    {
+                        codigo = itemZonaVirtual.comercio_codigo,
+                        nombre = itemZonaVirtual.comercio_nombre,
+                        nit = itemZonaVirtual.comercio_nit,
+                        direccion = itemZonaVirtual.comercio_direccion
+                    };
 
-                zonaVirtualDTOs.Add(oZonaVirtualDTOs);
+                    oZonaVirtualDTOs.Trans = new Transaccion
+                    {
+                        codigo = itemZonaVirtual.Trans_codigo,
+                        medio_pago = itemZonaVirtual.Trans_medio_pago,
+                        estado = itemZonaVirtual.Trans_estado,
+                        total = itemZonaVirtual.Trans_total,
+                        fecha = itemZonaVirtual.Trans_fecha,
+                        concepto = itemZonaVirtual.Trans_concepto,
+                        identificacionUsuario = itemZonaVirtual.usuario_identificacion,
+                        codigoComercio = itemZonaVirtual.comercio_codigo
+                    };
+
+                    zonaVirtualDTOs.Add(oZonaVirtualDTOs);
+                }
+
             }
 
             return zonaVirtualDTOs;
