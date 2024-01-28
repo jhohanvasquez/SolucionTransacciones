@@ -13,7 +13,7 @@ Aplicacion realizada en:
 
   
 1. Cree una base de datos vacia en sqlServer llamada "DBTransacciones"
-2. Instale la base de datos ejecutando el scrip en sqlServer https://github.com/jhohanvasquez/SolucionTransacciones/blob/master/ScriptBD/ScriptBD.sql
+2. Instale la base de datos ejecutando el scrip en sqlServer https://github.com/jhohanvasquez/SolucionTransacciones/blob/master/ScriptBD/ScriptInicialBD.sql
 3. Cambien la conexion de la base de datos por su conexion de sql en el archivo "appseting.Json"  
 4. Realice el ingreso con el usuarios por defecto:
    
@@ -44,3 +44,4 @@ Aplicacion realizada en:
 
 <img width="221" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/7ca19c6a-1a73-48ad-be60-cef578f59466">
 
+# Nota: Si desea reinicar la base de datos ejecute el siguiente script de BD https://github.com/jhohanvasquez/SolucionTransacciones/blob/master/ScriptBD/ScriptLimpiarBD.sql
