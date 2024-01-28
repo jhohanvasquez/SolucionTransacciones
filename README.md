@@ -30,6 +30,7 @@ Aplicacion realizada en:
 
 # Nota: Puede realizar multiples transacciones para diferentes comercios, el campo de comercio es un autocompletable para una mejor busqueda del comercio a seleccionar.
 
+   * <img width="953" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/7ea58a46-14c9-4885-8931-4d89e2f3b53b">
      
 6. Al iniciar sesion este consumira el endpoint de la API: http://pbiz.zonavirtual.com/api/Prueba/Consulta.
 7. Se poblara la base de datos con la informacion recuperada de la API al ingresar.
