@@ -69,9 +69,38 @@ namespace AppTransacciones.Repository.Implementacion
 
                 using (var connection = _dbContext.CreateConnection())
                 {
-                    var result = await connection.QueryAsync<Transaccion>("SP_ObtenerComercioId", parameters, commandType: CommandType.StoredProcedure);
+                    var result = await connection.QueryAsync<Transaccion>("SP_ObtenerTransaccionId", parameters, commandType: CommandType.StoredProcedure);
 
                     return result.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Transaccion>> ListarTransacciones(string id, int idRol)
+        {
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();   
+
+                using (var connection = _dbContext.CreateConnection())
+                {
+                    switch (idRol)
+                    {
+                        case 1:
+                            return await connection.QueryAsync<Transaccion>("SP_ConsultarTransacciones", null, commandType: CommandType.StoredProcedure);                          
+                        case 2:
+                            parameters.Add("codigoComercio", id);
+                            return await connection.QueryAsync<Transaccion>("SP_ObtenerTransaccionComercioId", parameters, commandType: CommandType.StoredProcedure);
+                        case 3:
+                            parameters.Add("identificacionUsuario", id);
+                            return await connection.QueryAsync<Transaccion>("SP_ObtenerTransaccionUsuarioId", parameters, commandType: CommandType.StoredProcedure);
+                        default:
+                            throw new NotImplementedException();
+                    }
                 }
             }
             catch (Exception ex)

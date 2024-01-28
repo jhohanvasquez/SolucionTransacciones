@@ -29,9 +29,15 @@ export class TransaccionService {
 
   }
 
-  consultar(codigo: number): Observable<ResponseApi> {
+  consultar(id: number): Observable<ResponseApi> {
 
-    return this.http.get<ResponseApi>(`${this.apiBase}Consultar?codigo=${codigo}`);
+    return this.http.get<ResponseApi>(`${this.apiBase}Consultar/${id}`);
+
+  }
+
+  ConsultarTransacciones(id: string, idRol: string): Observable<ResponseApi> {
+
+    return this.http.get<ResponseApi>(`${this.apiBase}ConsultarTransacciones/${id}/${idRol}`);
 
   }
 }

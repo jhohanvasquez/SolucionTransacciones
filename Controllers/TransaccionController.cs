@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AppTransacciones.Controllers
 {
@@ -25,21 +26,22 @@ namespace AppTransacciones.Controllers
         }
 
         [HttpGet]
-        [Route("Consultar/{codigo:int}")]
-        public async Task<IActionResult> Consultar(int codigo)
+        [Route("Consultar/{id:int}")]
+        public async Task<IActionResult> Consultar(int id)
         {
             Response<string> _response = new Response<string>();
             try
             {
-                Transaccion _transaccionConsulta = await _transaccionRepositorio.Obtener(codigo);
+                Transaccion oTransaccion = new Transaccion();
+                Transaccion _transaccionConsulta = await _transaccionRepositorio.Obtener(id);
 
                 if (_transaccionConsulta != null)
                 {
-                    _response = new Response<Transaccion>() { status = true, msg = "ok", value = _transaccionConsulta };
+                    _response = new Response<string>() { status = true, msg = "ok", value = _transaccionConsulta.estado.ToString() };
                 }
                 else
                 {
-                    _response = new Response<Transaccion>() { status = false, msg = "sin resultados", value = null };
+                    _response = new Response<string>() { status = false, msg = "sin resultados", value = null };
                 }
 
                 return StatusCode(StatusCodes.Status200OK, _response);
@@ -47,6 +49,37 @@ namespace AppTransacciones.Controllers
             catch (Exception ex)
             {
                 _response = new Response<string>() { status = false, msg = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, _response);
+            }
+        }
+
+        [HttpGet]
+        [Route("ConsultarTransacciones/{id}/{idRol:int}")]
+        public async Task<IActionResult> ConsultarTransaccionComercio(string id, int idRol)
+        {
+            Response<List<TransaccionDTO>> _response = new Response<List<TransaccionDTO>>();
+            try
+            {
+                List<TransaccionDTO> ListaTransacciones = new List<TransaccionDTO>();
+                IEnumerable<Transaccion> query = await _transaccionRepositorio.ListarTransacciones(id, idRol);
+                query = query.AsQueryable();
+
+                ListaTransacciones = _mapper.Map<List<TransaccionDTO>>(query.ToList());
+
+                if (ListaTransacciones.Count > 0)
+                {
+                    _response = new Response<List<TransaccionDTO>> () { status = true, msg = "ok", value = ListaTransacciones };
+                }
+                else
+                {
+                    _response = new Response<List<TransaccionDTO>>() { status = false, msg = "sin resultados", value = null };
+                }
+
+                return StatusCode(StatusCodes.Status200OK, _response);
+            }
+            catch (Exception ex)
+            {
+                _response = new Response<List<TransaccionDTO>>() { status = false, msg = ex.Message };
                 return StatusCode(StatusCodes.Status500InternalServerError, _response);
             }
         }

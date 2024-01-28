@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Comercio } from '../../../interfaces/comercio';
 import { ComercioService } from '../../../services/comercio.service';
@@ -57,7 +57,7 @@ export class TransaccionesComponent implements OnInit {
     })
 
     this.formGroup.get('comercio')?.valueChanges.subscribe(value => {
-      this.filteredOptions =  this._filter(value)
+      this.filteredOptions = this._filter(value)
     })
 
     this._comercioServicio.getComercios().subscribe({
@@ -77,7 +77,7 @@ export class TransaccionesComponent implements OnInit {
         debugger;
         if (data.status) {
 
-          this.listaMedioPago = data.value;          
+          this.listaMedioPago = data.value;
 
         }
       },
@@ -119,10 +119,10 @@ export class TransaccionesComponent implements OnInit {
   onSubmitForm() {
 
     this._transaccionServicio.consultar(this.formGroup.value.codigo).subscribe({
-      next: (data) => {
+      next: (data) => {        
 
         if (data.status) {
-          this._snackBar.open("No se pudo registrar la transaccion el codigo" + this.formGroup.value.codigo + ' ya se encuentra registrado.', "Oops", {
+          this._snackBar.open("No se pudo registrar la transaccion el codigo: " + this.formGroup.value.codigo + ', se encuentra registrado.', "Oops", {
             horizontalPosition: "end",
             verticalPosition: "top",
             duration: 3000
@@ -141,22 +141,20 @@ export class TransaccionesComponent implements OnInit {
               total: this.formGroup.value.total
             })
 
-          debugger;
-
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+
+          this.formGroup.patchValue({
+            codigo: '',
+            comercio: '',
+            codigoComercio: '',
+            nombreComercio: '',
+            medio_pago: '',
+            concepto: '',
+            total: ''
+          })
         }
       }
-    });
-
-    this.formGroup.patchValue({
-      codigo: '',
-      comercio: '',
-      codigoComercio: '',
-      nombreComercio: '',      
-      medio_pago: '',
-      concepto: '',
-      total: ''
-    })
+    });    
 
   }
 
@@ -174,7 +172,7 @@ export class TransaccionesComponent implements OnInit {
 
       this.deshabilitado = true;
 
-      this.ELEMENT_DATA.forEach( (item) => {
+      this.ELEMENT_DATA.forEach((item) => {
 
         const transaccionDto: Transaccion = {
           codigo: item.codigo,
@@ -186,46 +184,28 @@ export class TransaccionesComponent implements OnInit {
           identificacionUsuario: this.cookieService.get('identificacion'),
         }
 
-        this._transaccionServicio.consultar(item.codigo).subscribe({
+
+        this._transaccionServicio.registrar(transaccionDto).subscribe({
           next: (data) => {
 
             if (data.status) {
-              this._snackBar.open("No se pudo registrar la transaccion el codigo" + item.codigo + ' ya se encuentra registrado.', "Oops", {
+              this.totalPagar = 0.00;
+              this.ELEMENT_DATA = [];
+              this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+              this.tipodePago = "Efectivo";
+
+              this.dialog.open(DialogResultadoTransaccionComponent, {
+                data: {
+                  codigo: item.codigo
+                },
+              });
+
+            } else {
+              this._snackBar.open("No se pudo registrar la transaccion codigo" + item.codigo, "Oops", {
                 horizontalPosition: "end",
                 verticalPosition: "top",
                 duration: 3000
               });
-
-            } else {
-              this._transaccionServicio.registrar(transaccionDto).subscribe({
-                next: (data) => {
-
-                  if (data.status) {
-                    this.totalPagar = 0.00;
-                    this.ELEMENT_DATA = [];
-                    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-                    this.tipodePago = "Efectivo";
-
-                    this.dialog.open(DialogResultadoTransaccionComponent, {
-                      data: {
-                        codigo: item.codigo
-                      },
-                    });
-
-                  } else {
-                    this._snackBar.open("No se pudo registrar la transaccion codigo" + item.codigo, "Oops", {
-                      horizontalPosition: "end",
-                      verticalPosition: "top",
-                      duration: 3000
-                    });
-                  }
-                },
-                error: (e) => {
-                },
-                complete: () => {
-                  this.deshabilitado = false;
-                }
-              })
             }
           },
           error: (e) => {
@@ -233,9 +213,10 @@ export class TransaccionesComponent implements OnInit {
           complete: () => {
             this.deshabilitado = false;
           }
-        })       
-       
-      }); 
+        })
+
+
+      });
 
     }
   }
