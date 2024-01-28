@@ -10,25 +10,18 @@ import { Transaccion } from '../../../../interfaces/transaccion';
 export class DialogDetalleTransaccionComponent implements OnInit {
 
 
-  fechaRegistro?: string = "";
-  numero?: string = "";
-  color?: string = "";
-  tipoPago?: string = "";
-  total?: string = "";
-  detalleTransaccion: DetalleTransaccion[] = [
-    { codigoComercio: 1, descripcionComercio: "", nit: "", direccion: "0", totalTexto: "0" },
-  ]
-  displayedColumns: string[] = ['comercio', 'nit', 'direccion','total'];
+  fecha?: string = "";
+  codigo?: number = 0;
+  concepto?: string = "";
+  total?: number = 0;
+  displayedColumns: string[] = ['comercio', 'concepto','total'];
  
 
-  constructor(@Inject(MAT_DIALOG_DATA) public _venta: Transaccion) {
-    this.fechaRegistro = _venta.fechaRegistro;
-    this.numero = _venta.numeroDocumento;
-    this.tipoPago = _venta.tipoPago;
-    this.total = _venta.totalTexto;
-    this.detalleTransaccion = _venta.detalleTransaccion == null ? [
-      { codigoComercio: 1, descripcionComercio: "", nit: "", direccion: "0", totalTexto: "0" },
-    ] : _venta.detalleTransaccion;
+  constructor(@Inject(MAT_DIALOG_DATA) public _transaccion: Transaccion) {
+    this.fecha = _transaccion.fecha;
+    this.codigo = _transaccion.codigo;
+    this.concepto = _transaccion.concepto;
+    this.total = _transaccion.total;    
   }
 
   ngOnInit(): void {

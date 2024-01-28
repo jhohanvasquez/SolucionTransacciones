@@ -25,6 +25,8 @@ builder.Services.AddScoped<IDashBoardRepositorio, DashBoardRepositorio>();
 builder.Services.AddScoped<IZonaVirtualRepositorio, ZonaVirtualRepositorio>();
 builder.Services.AddScoped<IComercioRepositorio, ComercioRepositorio>();
 builder.Services.AddScoped<ITransaccionRepositorio, TransaccionRepositorio>();
+builder.Services.AddScoped<IMedioPagoRepositorio, MedioPagoRepositorio>();
+
 
 
 var app = builder.Build();

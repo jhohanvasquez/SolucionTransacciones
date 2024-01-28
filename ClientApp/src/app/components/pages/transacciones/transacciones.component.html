@@ -59,13 +59,12 @@
       <mat-grid-tile></mat-grid-tile>
       <mat-grid-tile>
 
-        <mat-form-field class="example-full-width" appearance="fill" style="margin-left: 40px;">
+        <mat-form-field appearance="outline">
           <mat-label>Medio de pago</mat-label>
-          <mat-select [(value)]="medio_pago">
-            <mat-option value="1">Tarjeta de Credito</mat-option>
-            <mat-option value="2">PSE</mat-option>
-            <mat-option value="3">GANA</mat-option>
-            <mat-option value="4">Caja</mat-option>
+          <mat-select formControlName="medio_pago">
+            <mat-option *ngFor="let item of listaMedioPago" [value]="item.idMedio">
+              {{item.descripcion}}
+            </mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -130,19 +129,19 @@
       </table>
 
     </div>
-    
+
     <mat-grid-list cols="4" rowHeight="80px">
       <mat-grid-tile></mat-grid-tile>
       <mat-grid-tile></mat-grid-tile>
       <mat-grid-tile>
-       
+
 
       </mat-grid-tile>
       <mat-grid-tile>
-          <button mat-raised-button color="primary" style="width: 80%;" [disabled]="ELEMENT_DATA.length< 1 || deshabilitado" (click)="registrarTransaccion()">
-            <mat-icon>new_label</mat-icon>
-            Registrar
-          </button>
+        <button mat-raised-button color="primary" style="width: 80%;" [disabled]="ELEMENT_DATA.length< 1 || deshabilitado" (click)="registrarTransaccion()">
+          <mat-icon>new_label</mat-icon>
+          Registrar
+        </button>
       </mat-grid-tile>
     </mat-grid-list>
 

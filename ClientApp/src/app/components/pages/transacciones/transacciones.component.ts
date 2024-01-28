@@ -9,6 +9,8 @@ import { TransaccionService } from '../../../services/transaccion.service';
 import { DetalleTransaccion } from '../../../interfaces/detalle-transaccion';
 import { Transaccion } from '../../../interfaces/transaccion';
 import { DialogResultadoTransaccionComponent } from '../modals/dialog-resultado-transaccion/dialog-resultado-transaccion.component';
+import { MedioPagoService } from '../../../services/medio-pago-servicio.service';
+import { MedioPago } from '../../../interfaces/medio-pago';
 
 
 
@@ -26,6 +28,7 @@ export class TransaccionesComponent implements OnInit {
   agregarTransaccion!: Transaccion;
   tipodePago: string = "Efectivo";
   totalPagar: number = 0;
+  listaMedioPago: MedioPago[] = [];
 
   formGroup: FormGroup;
   displayedColumns: string[] = ['comercio', 'medio_pago', 'concepto', 'estado', 'total','accion'];
@@ -37,6 +40,7 @@ export class TransaccionesComponent implements OnInit {
     private _transaccionServicio: TransaccionService,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
+    private _medioPagoServicio: MedioPagoService,
   ) {
 
     this.formGroup = this.fb.group({
@@ -60,6 +64,21 @@ export class TransaccionesComponent implements OnInit {
       },
       complete: () => {
 
+      }
+    })
+
+    this._medioPagoServicio.getMedioPagos().subscribe({
+      next: (data) => {
+
+        if (data.status) {
+
+          this.listaMedioPago = data.value;          
+
+        }
+      },
+      error: (e) => {
+      },
+      complete: () => {
       }
     })
 

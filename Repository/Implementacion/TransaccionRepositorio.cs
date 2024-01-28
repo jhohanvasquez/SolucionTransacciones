@@ -47,7 +47,7 @@ namespace AppTransacciones.Repository.Implementacion
             }
         }
 
-        public async Task<Transaccion> Obtener(string id)
+        public async Task<Transaccion> Obtener(int id)
         {
             try
             {

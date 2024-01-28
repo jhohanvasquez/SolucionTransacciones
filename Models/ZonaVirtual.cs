@@ -9,7 +9,7 @@ namespace AppTransacciones.Models
         public string? comercio_nombre { get; set; }
         public string? comercio_nit { get; set; }
         public string? comercio_direccion { get; set; }
-        public string? Trans_codigo { get; set; }
+        public int Trans_codigo { get; set; }
         public int Trans_medio_pago { get; set; }
         public int Trans_estado { get; set; }
         public double Trans_total { get; set; }

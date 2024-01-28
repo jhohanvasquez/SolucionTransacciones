@@ -13,6 +13,24 @@ namespace AppTransacciones.Utilidades
             CreateMap<Rol, RolDTO>().ReverseMap();
             #endregion Rol
 
+            #region MedioPago
+            CreateMap<MedioPago, MedioPagoDTO>().ReverseMap();
+            #endregion MedioPago
+
+            #region Transaccion
+            CreateMap<Transaccion, TransaccionDTO>()
+                .ForMember(destino =>
+                    destino.descripcionComercio,
+                    opt => opt.MapFrom(origen => origen.idMedioNavigation.descripcion ?? string.Empty)
+                );
+
+            CreateMap<TransaccionDTO, Transaccion>()
+            .ForMember(destino =>
+                destino.idMedioNavigation,
+                opt => opt.Ignore()
+            );
+            #endregion Transaccion
+
             #region Usuario
             CreateMap<Usuario, UsuarioDTO>()
                 .ForMember(destino =>
