@@ -24,9 +24,8 @@ export class DialogComercioComponent implements OnInit {
   ) {
     this.formComercio = this.fb.group({
       nombre: ['', Validators.required],
-      idDepartamentoTransaccion: ['', Validators.required],
-      stock: ['', Validators.required],
-      precio: ['', Validators.required],
+      nit: ['', Validators.required],
+      direccion: ['', Validators.required]
     })
 
 

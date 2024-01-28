@@ -19,16 +19,16 @@ import { DialogResultadoTransaccionComponent } from '../modals/dialog-resultado-
 })
 export class TransaccionesComponent implements OnInit {
   options: Comercio[] = [];
-  ELEMENT_DATA: DetalleTransaccion[] = [];
+  ELEMENT_DATA: Transaccion[] = [];
   deshabilitado: boolean = false;
 
   filteredOptions!: Comercio[];
-  agregarComercio!: Comercio;
+  agregarTransaccion!: Transaccion;
   tipodePago: string = "Efectivo";
   totalPagar: number = 0;
 
   formGroup: FormGroup;
-  displayedColumns: string[] = ['comercio', 'color', 'cantidad', 'precio', 'total','accion'];
+  displayedColumns: string[] = ['comercio', 'medio_pago', 'concepto', 'estado', 'total','accion'];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   constructor(
@@ -40,8 +40,11 @@ export class TransaccionesComponent implements OnInit {
   ) {
 
     this.formGroup = this.fb.group({
+      codigo: [0, Validators.required],
       comercio: ['', Validators.required],
-      cantidad: ['', Validators.required]
+      medio_pago: ['', Validators.required],
+      concepto: ['', Validators.required],
+      total: [0, Validators.required]
     })
 
     this.formGroup.get('comercio')?.valueChanges.subscribe(value => {
@@ -77,7 +80,7 @@ export class TransaccionesComponent implements OnInit {
   }
 
   comercioSeleccionado(event: any) {
-    this.agregarComercio = event.option.value;
+    this.agregarTransaccion = event.option.value;
   }
 
   onSubmitForm() {
@@ -86,17 +89,20 @@ export class TransaccionesComponent implements OnInit {
 
     this.ELEMENT_DATA.push(
       {
-        codigoComercio: this.agregarComercio.codigo,
-        descripcionComercio: this.agregarComercio.nombre,
-        nit: this.agregarComercio.nit,
-        direccion: this.agregarComercio.direccion,
-        totalTexto: String(this.totalPagar.toFixed(2))
+        codigo: this.agregarTransaccion.codigo,
+        codigoComercio: this.agregarTransaccion.codigoComercio,
+        medio_pago: this.agregarTransaccion.medio_pago,
+        concepto: this.agregarTransaccion.concepto,
+        total: Number(this.agregarTransaccion.total.toFixed(2))
       })
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
     this.formGroup.patchValue({
+      codigo: '',
       comercio: '',
-      cantidad: ''
+      concepto: '',
+      medio_pago: '',
+      total: ''
     })
 
   }
@@ -117,8 +123,11 @@ export class TransaccionesComponent implements OnInit {
       
 
       const transaccionDto: Transaccion = {
-        tipoPago: this.tipodePago,
-        totalTexto: String(this.totalPagar.toFixed(2))
+        codigo: this.agregarTransaccion.codigo,
+        codigoComercio: this.agregarTransaccion.codigoComercio,
+        medio_pago: this.agregarTransaccion.medio_pago,
+        concepto: this.agregarTransaccion.concepto,
+        total: Number(this.agregarTransaccion.total.toFixed(2))
       }
 
       this._transaccionServicio.registrar(transaccionDto).subscribe({

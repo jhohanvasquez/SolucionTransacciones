@@ -15,7 +15,7 @@ import { ComercioService } from '../../../services/comercio.service';
   styleUrls: ['./comercios.component.css']
 })
 export class ComerciosComponent implements OnInit {
-  displayedColumns: string[] = ['nombre', 'nit', 'direccion'];
+  displayedColumns: string[] = ['nombre', 'nit', 'direccion', 'acciones'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -41,8 +41,10 @@ export class ComerciosComponent implements OnInit {
   }
 
   mostrarComercios() {
+    debugger;
     this._comercioServicio.getComercios().subscribe({
       next: (data) => {
+        debugger;
         if (data.status)
           this.dataSource.data = data.value;
         else

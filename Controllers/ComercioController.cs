@@ -61,10 +61,7 @@ namespace AppTransacciones.Controllers
 
                 Comercio _comercioCreado = (Comercio)await _comercioRepositorio.Crear(_comercio);
 
-                if (_comercioCreado.codigo != 0)
-                    _response = new Response<ComercioDTO>() { status = true, msg = "ok", value = _mapper.Map<ComercioDTO>(_comercioCreado) };
-                else
-                    _response = new Response<ComercioDTO>() { status = false, msg = "No se pudo crear el comercio" };
+                _response = new Response<ComercioDTO>() { status = true, msg = "ok", value = _mapper.Map<ComercioDTO>(_comercioCreado) };
 
                 return StatusCode(StatusCodes.Status200OK, _response);
             }
