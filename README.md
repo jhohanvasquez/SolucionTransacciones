@@ -26,7 +26,9 @@ Aplicacion realizada en:
 
    * Usuario Pagador: employe@example.com
    * Clave Pagador: 12345
-   * <img width="928" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/690d273f-7a51-45ad-ba8f-ad957f538710">
+   * <img width="949" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/ec374629-50c5-48ea-9cb3-6969e8da70de">
+
+# Nota: Puede realizar multiples transacciones.
 
      
 6. Al iniciar sesion este consumira el endpoint de la API: http://pbiz.zonavirtual.com/api/Prueba/Consulta.
