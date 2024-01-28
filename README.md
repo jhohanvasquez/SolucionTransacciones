@@ -11,6 +11,8 @@ Aplicacion realizada en:
 * API
 * Dapper
 
+# Nota: Si el usuario es aministrado en el dashboard podra ver todas las transacciones, si es pagador vera solo sus transacciones al igual que si tiene el rol de comercio solo vera sus transacciones.
+
   
 1. Cree una base de datos vacia en sqlServer llamada "DBTransacciones"
 2. Instale la base de datos ejecutando el script en sqlServer https://github.com/jhohanvasquez/SolucionTransacciones/blob/master/ScriptBD/ScriptInicialBD.sql
@@ -21,12 +23,14 @@ Aplicacion realizada en:
    * Clave Administrador: 12345
    * <img width="914" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/db5fb7c1-786d-4411-b5d4-8fc79461c39b">
    * <img width="922" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/05ef492e-d3f8-4faf-836b-a4d09435dcc6">
-
-
-
-   * Usuario Pagador: employe@example.com
+   * <img width="926" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/b2541b73-b7ba-4cae-ac72-6f2ab04b6546">
+   
+   * Usuario Pagador: pagador@example.com
    * Clave Pagador: 12345
    * <img width="949" alt="image" src="https://github.com/jhohanvasquez/SolucionTransacciones/assets/36570532/ec374629-50c5-48ea-9cb3-6969e8da70de">
+
+   * Usuario Comercio: comercio@exanmple.com
+   * Clave Pagador: 12345
 
 # Nota: Puede realizar multiples transacciones para diferentes comercios, el campo de comercio es un autocompletable para una mejor busqueda del comercio a seleccionar.
 
