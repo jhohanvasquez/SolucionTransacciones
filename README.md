@@ -11,7 +11,7 @@ Aplicacion realizada en:
 * API
 * Dapper
 
-# Nota: Si el usuario es aministrado en el dashboard podra ver todas las transacciones, si es pagador vera solo sus transacciones al igual que si tiene el rol de comercio solo vera sus transacciones.
+# Nota: Si el usuario pretenece al rol administrador en el dashboard podra ver todas las transacciones, si es pagador vera solo sus transacciones al igual que si tiene el rol de comercio solo veran sus transacciones.
 
   
 1. Cree una base de datos vacia en sqlServer llamada "DBTransacciones"
